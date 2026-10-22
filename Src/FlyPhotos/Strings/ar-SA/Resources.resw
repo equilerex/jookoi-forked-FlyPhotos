@@ -1279,4 +1279,10 @@ High Quality Cubic – تحجيم بأعلى جودة للصور.</value>
   <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
     <value>عند حذف صورة تُنقل ملفات .xmp الخاصة بها أيضًا إلى سلة المحذوفات. قد تحتوي على تعديلات من تطبيقات أخرى.</value>
   </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
+    <value>حفظ التقييمات داخل ملفات JPEG وTIFF</value>
+  </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
+    <value>إيقاف: يستخدم ملف .xmp بجانب الصورة ويحافظ على تاريخ تعديلها. لا يقرأ Lightroom وBridge ملفات .xmp الخاصة بـ JPEG أو DNG.</value>
+  </data>
 </root>

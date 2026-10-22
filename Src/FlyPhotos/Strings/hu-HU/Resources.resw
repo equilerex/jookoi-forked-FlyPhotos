@@ -1278,4 +1278,10 @@ High Quality Cubic – A legjobb minőségű méretezés fotókhoz.</value>
   <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
     <value>Egy fotó törlésekor az .xmp-fájljai is a Lomtárba kerülnek. Ezek más alkalmazások szerkesztéseit is tartalmazhatják.</value>
   </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
+    <value>Értékelések mentése a JPEG- és TIFF-fájlokba</value>
+  </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
+    <value>Ki: a fotó melletti .xmp-fájlt használja, és megtartja a fotó módosítási dátumát. A Lightroom és a Bridge nem olvassa a JPEG és DNG fájlok .xmp-fájljait.</value>
+  </data>
 </root>

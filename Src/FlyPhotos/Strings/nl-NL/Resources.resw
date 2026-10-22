@@ -1279,4 +1279,10 @@ High Quality Cubic – Schaling van de hoogste kwaliteit voor foto's.</value>
   <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
     <value>Bij het verwijderen van een foto gaan ook de .xmp-bestanden naar de Prullenbak. Die kunnen bewerkingen uit andere apps bevatten.</value>
   </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
+    <value>Waarderingen in JPEG- en TIFF-bestanden opslaan</value>
+  </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
+    <value>Uit: gebruikt een .xmp-bestand naast de foto en houdt de wijzigingsdatum gelijk. Lightroom en Bridge lezen geen .xmp-bestanden voor JPEG of DNG.</value>
+  </data>
 </root>

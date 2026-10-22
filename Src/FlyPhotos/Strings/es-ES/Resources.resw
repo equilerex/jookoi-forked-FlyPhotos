@@ -1279,4 +1279,10 @@ High Quality Cubic – Escalado de la más alta calidad para fotos.</value>
   <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
     <value>Al eliminar una foto, sus archivos .xmp también se envían a la Papelera de reciclaje. Pueden contener ediciones de otras aplicaciones.</value>
   </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
+    <value>Guardar las valoraciones dentro de archivos JPEG y TIFF</value>
+  </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
+    <value>Desactivado: usa un archivo .xmp junto a la foto y conserva su fecha de modificación. Lightroom y Bridge no leen archivos .xmp para JPEG ni DNG.</value>
+  </data>
 </root>

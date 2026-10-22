@@ -1279,4 +1279,10 @@ High Quality Cubic – Масштабування найвищої якості 
   <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
     <value>Під час видалення фото його файли .xmp теж переміщуються до кошика. Вони можуть містити зміни з інших програм.</value>
   </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
+    <value>Зберігати оцінки всередині файлів JPEG і TIFF</value>
+  </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
+    <value>Вимк.: використовує файл .xmp поруч із фото і зберігає дату зміни. Lightroom і Bridge не читають файли .xmp для JPEG і DNG.</value>
+  </data>
 </root>

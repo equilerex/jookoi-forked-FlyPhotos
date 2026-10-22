@@ -304,6 +304,9 @@
                                 <ComboBoxItem x:Uid="ComboRatingSidecarStyleItemBoth" />
                             </ComboBox>
                             <controls:SettingsExpander.Items>
+                                <controls:SettingsCard x:Name="SettingsCardEmbedRatingsInFiles" x:Uid="SettingsCardEmbedRatingsInFiles">
+                                    <ToggleSwitch x:Name="ButtonEmbedRatingsInFiles" />
+                                </controls:SettingsCard>
                                 <controls:SettingsCard x:Name="SettingsCardDeleteRatingSidecars" x:Uid="SettingsCardDeleteRatingSidecars">
                                     <ToggleSwitch x:Name="ButtonDeleteRatingSidecars" />
                                 </controls:SettingsCard>

@@ -1279,4 +1279,10 @@ High Quality Cubic – 适合照片的最高质量缩放。</value>
   <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
     <value>删除照片时，其 .xmp 文件也会移到回收站。这些文件可能包含其他应用的编辑。</value>
   </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
+    <value>将评分保存在 JPEG 和 TIFF 文件内</value>
+  </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
+    <value>关闭：使用照片旁的 .xmp 文件，照片的修改日期保持不变。Lightroom 和 Bridge 不读取 JPEG 或 DNG 的 .xmp 文件。</value>
+  </data>
 </root>

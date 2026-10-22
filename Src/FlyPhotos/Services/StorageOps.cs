@@ -278,7 +278,8 @@ internal class StorageOps
     /// <summary>Writes the star rating (0-5) for <paramref name="filePath"/>; see <see cref="XmpRatingWriter"/>.</summary>
     public static Task<RatingResult> SetRatingOnDisk(string filePath, int rating, bool isRaw) => Task.Run(() =>
     {
-        var result = XmpRatingWriter.WriteRating(filePath, rating, isRaw, AppConfig.Settings.RatingSidecarStyle);
+        var result = XmpRatingWriter.WriteRating(filePath, rating, isRaw, AppConfig.Settings.RatingSidecarStyle,
+            AppConfig.Settings.EmbedRatingsInFiles);
         if (!result.Success) Logger.Error($"Failed to rate '{filePath}': {result.FailMessage}");
         return result;
     });

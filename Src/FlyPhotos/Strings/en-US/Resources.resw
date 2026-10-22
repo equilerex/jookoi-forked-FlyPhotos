@@ -1279,4 +1279,10 @@ High Quality Cubic – Highest-quality scaling for photos.</value>
   <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
     <value>Deleting a photo also moves its .xmp files to the Recycle Bin. They can hold edits from other apps.</value>
   </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
+    <value>Save ratings inside JPEG and TIFF files</value>
+  </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
+    <value>Off: uses a .xmp file next to the photo and keeps its modified date. Lightroom and Bridge don't read .xmp files for JPEG or DNG.</value>
+  </data>
 </root>

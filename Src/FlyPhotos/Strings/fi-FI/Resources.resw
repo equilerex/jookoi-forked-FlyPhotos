@@ -1279,4 +1279,10 @@ High Quality Cubic – Korkealaatuisin skaalaus valokuville.</value>
   <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
     <value>Kuvan poistaminen siirtää myös sen .xmp-tiedostot roskakoriin. Ne voivat sisältää muiden sovellusten muokkauksia.</value>
   </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
+    <value>Tallenna arvostelut JPEG- ja TIFF-tiedostojen sisään</value>
+  </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
+    <value>Pois: käyttää kuvan vieressä olevaa .xmp-tiedostoa ja säilyttää kuvan muokkauspäivän. Lightroom ja Bridge eivät lue .xmp-tiedostoja JPEG- tai DNG-kuville.</value>
+  </data>
 </root>

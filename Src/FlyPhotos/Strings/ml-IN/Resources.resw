@@ -1276,4 +1276,10 @@ High Quality Cubic – ഫോട്ടോകൾക്ക് ഏറ്റവു�
   <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
     <value>ഒരു ഫോട്ടോ ഇല്ലാതാക്കുമ്പോൾ അതിന്റെ .xmp ഫയലുകളും റീസൈക്കിൾ ബിന്നിലേക്ക് മാറ്റുന്നു. അവയിൽ മറ്റ് ആപ്പുകളിലെ എഡിറ്റുകൾ ഉണ്ടാകാം.</value>
   </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
+    <value>റേറ്റിംഗുകൾ JPEG, TIFF ഫയലുകൾക്കുള്ളിൽ സേവ് ചെയ്യുക</value>
+  </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
+    <value>ഓഫ്: ഫോട്ടോയുടെ അടുത്തുള്ള .xmp ഫയൽ ഉപയോഗിക്കുന്നു, ഫോട്ടോയുടെ മാറ്റിയ തീയതി മാറില്ല. Lightroom, Bridge എന്നിവ JPEG, DNG എന്നിവയുടെ .xmp ഫയലുകൾ വായിക്കില്ല.</value>
+  </data>
 </root>

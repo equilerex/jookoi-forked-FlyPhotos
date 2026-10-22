@@ -1279,4 +1279,10 @@ High Quality Cubic – Redimensionamento de alta qualidade para fotos.</value>
   <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
     <value>Ao eliminar uma fotografia, os seus ficheiros .xmp também vão para a Reciclagem. Podem conter edições de outras aplicações.</value>
   </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
+    <value>Guardar classificações dentro de ficheiros JPEG e TIFF</value>
+  </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
+    <value>Desativado: usa um ficheiro .xmp ao lado da fotografia e mantém a data de modificação. O Lightroom e o Bridge não leem ficheiros .xmp de JPEG ou DNG.</value>
+  </data>
 </root>

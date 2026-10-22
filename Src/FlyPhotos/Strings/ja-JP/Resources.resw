@@ -1278,4 +1278,10 @@ High Quality Cubic – 写真に最適な最高品質のスケーリングです
   <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
     <value>写真を削除すると、その .xmp ファイルもごみ箱に移動します。他のアプリの編集内容が含まれている場合があります。</value>
   </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
+    <value>評価を JPEG と TIFF ファイル内に保存</value>
+  </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
+    <value>オフ: 写真の横の .xmp ファイルを使い、写真の更新日時を変更しません。Lightroom と Bridge は JPEG や DNG の .xmp ファイルを読み込みません。</value>
+  </data>
 </root>

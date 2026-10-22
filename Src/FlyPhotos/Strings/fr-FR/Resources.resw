@@ -1279,4 +1279,10 @@ High Quality Cubic – Mise à l'échelle de la plus haute qualité pour les pho
   <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
     <value>Supprimer une photo envoie aussi ses fichiers .xmp à la Corbeille. Ils peuvent contenir des retouches d'autres applications.</value>
   </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
+    <value>Enregistrer les notes dans les fichiers JPEG et TIFF</value>
+  </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
+    <value>Désactivé : utilise un fichier .xmp à côté de la photo et conserve sa date de modification. Lightroom et Bridge ne lisent pas les fichiers .xmp des JPEG ou DNG.</value>
+  </data>
 </root>

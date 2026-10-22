@@ -1279,4 +1279,10 @@ High Quality Cubic – Skalierung mit höchster Qualität für Fotos.</value>
   <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
     <value>Beim Löschen eines Fotos werden auch seine .xmp-Dateien in den Papierkorb verschoben. Sie können Bearbeitungen anderer Apps enthalten.</value>
   </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
+    <value>Bewertungen in JPEG- und TIFF-Dateien speichern</value>
+  </data>
+  <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
+    <value>Aus: nutzt eine .xmp-Datei neben dem Foto und behält dessen Änderungsdatum. Lightroom und Bridge lesen keine .xmp-Dateien für JPEG oder DNG.</value>
+  </data>
 </root>

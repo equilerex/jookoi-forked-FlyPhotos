@@ -60,6 +60,8 @@ public class AppSettings
     [JsonConverter(typeof(JsonStringEnumConverter<SidecarStyle>))]
     public SidecarStyle RatingSidecarStyle { get; set; } = SidecarStyle.Adobe;
 
+    public bool EmbedRatingsInFiles { get; set; } = true;
+
     public bool DeleteRatingSidecarsWithPhoto { get; set; } = true;
 
     public bool ShowFileName { get; set; } = true;
