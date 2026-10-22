@@ -310,15 +310,16 @@ internal partial class PhotoDisplayController
         if (IsContinuousKeyPress() || !photo.TryBeginRatingRead()) return;
 
         var path = photo.FilePath;
-        var version = photo.RatingVersion;
         _ = Task.Run(() =>
         {
-            var rating = XmpRatingWriter.ReadRating(path) ?? 0;
-            // A write that finished while we were reading is newer than what we found.
-            if (photo.RatingVersion == version) photo.Rating = rating;
-            else if (photo.Rating == Photo.RatingUnknown) photo.Rating = 0;
-            if (ReferenceEquals(CurrentPhotoOrNull(), photo)) UpdateFileNameAndDetails();
+            photo.SetRatingIfUnknown(RatingMetadata.ReadRating(path) ?? 0);
+            RefreshFooterIfCurrent(photo);
         });
+    }
+
+    private void RefreshFooterIfCurrent(Photo photo)
+    {
+        if (ReferenceEquals(CurrentPhotoOrNull(), photo)) UpdateFileNameAndDetails();
     }
 
     private Photo? CurrentPhotoOrNull()
@@ -340,18 +341,14 @@ internal partial class PhotoDisplayController
         if (CurrentPhotoOrNull() is not { } photo) return new RatingResult(false, "App - Inconsistent State");
         var path = photo.FilePath;
 
+        // Another press or the background read may fill it in during the await; theirs wins.
         if (photo.Rating == Photo.RatingUnknown)
-        {
-            var onDisk = await Task.Run(() => XmpRatingWriter.ReadRating(path)) ?? 0;
-            // Another press or the background read may have filled it in during the await.
-            if (photo.Rating == Photo.RatingUnknown) photo.Rating = onDisk;
-        }
+            photo.SetRatingIfUnknown(await Task.Run(() => RatingMetadata.ReadRating(path)) ?? 0);
 
         var previous = photo.Rating;
         var target = requested == previous ? 0 : requested;
         photo.Rating = target;
-        photo.BumpRatingVersion();
-        if (ReferenceEquals(CurrentPhotoOrNull(), photo)) UpdateFileNameAndDetails();
+        RefreshFooterIfCurrent(photo);
 
         // Called and resumed on the UI thread, so the set needs no lock: the loop's last check and the removal in
         // finally run in one continuation, with no await between them for another press to slip into.
@@ -366,8 +363,7 @@ internal partial class PhotoDisplayController
                 if (!result.Success)
                 {
                     photo.Rating = saved;
-                    photo.BumpRatingVersion();
-                    if (ReferenceEquals(CurrentPhotoOrNull(), photo)) UpdateFileNameAndDetails();
+                    RefreshFooterIfCurrent(photo);
                     return result;
                 }
                 saved = toWrite;

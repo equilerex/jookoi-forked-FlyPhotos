@@ -95,7 +95,7 @@ public static class ExifReader
     // Same read path as the footer, so the panel and the footer cannot disagree.
     private static string? GetRating(string filePath)
     {
-        var rating = XmpRatingWriter.ReadRating(filePath);
+        var rating = RatingMetadata.ReadRating(filePath);
         return rating is > 0 ? new string('★', rating.Value) : null;
     }
 

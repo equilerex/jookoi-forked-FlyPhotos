@@ -1,5 +1,6 @@
 #nullable enable
 using System;
+using System.Buffers.Binary;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using FlyPhotos.Core.Model;
+using FlyPhotos.Infra.Utils;
 using MetadataExtractor;
 using MetadataExtractor.Formats.Exif;
 using MetadataExtractor.Formats.Exif.Makernotes;
@@ -24,7 +26,7 @@ namespace FlyPhotos.Services;
 /// Ratings set in camera are read too. Changing one writes JPEG/TIFF/PNG (XMP, plus existing EXIF rating tags) or the
 /// sidecar, never the RAW.
 /// </summary>
-internal static class XmpRatingWriter
+internal static class RatingMetadata
 {
     private static readonly XNamespace Xmp = "http://ns.adobe.com/xap/1.0/";
     private static readonly XNamespace Rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
@@ -52,8 +54,8 @@ internal static class XmpRatingWriter
         {
             try
             {
-                // The file's own rating is the source of truth. A sidecar (Fly with embedding off, multi-picture
-                // JPEG, or darktable/digiKam) is used only when the file has none. Modified dates are not compared:
+                // The file's own rating is the source of truth. A sidecar (Fly with embedding off, a file Fly could
+                // not patch, or darktable/digiKam) is used only when the file has none. Modified dates are not compared:
                 // they change with any edit, not only rating changes.
                 if (IsEmbeddable(filePath))
                     return ReadInFileRating(filePath) ?? ReadSidecarRating(SidecarPaths(filePath));
@@ -86,24 +88,21 @@ internal static class XmpRatingWriter
                 var embedded = embedInFile && (IsJpeg(filePath) ? TryWriteJpeg(filePath, rating, recordZero)
                     : IsTiffBased(filePath) ? TryWriteTiff(filePath, rating, recordZero)
                     : IsPng(filePath) && TryWritePng(filePath, rating, recordZero));
-                if (embedded)
+
+                var sidecars = SidecarPaths(filePath);
+                if (!embedded && (IsEmbeddable(filePath) || IsProprietaryRaw(filePath)))
                 {
-                    // Keep an existing sidecar in step, so apps that read it agree. Never create one.
-                    var existingSidecars = SidecarPaths(filePath).Where(File.Exists).ToList();
-                    if (existingSidecars.Count > 0) WriteSidecars(existingSidecars, rating);
+                    // RAW, or JPEG/TIFF/PNG with embedding off or unsafe (XMP over 64 KB, unreadable MPF, BigTIFF, broken PNG).
+                    WriteSidecars(sidecars, rating, createAtZero: recordZero);
                     return new RatingResult(true, rating: rating);
                 }
-                if (IsProprietaryRaw(filePath) || IsEmbeddable(filePath))
-                {
-                    // RAW, or JPEG/TIFF/PNG with embedding off or unsafe (multi-picture JPEG, BigTIFF, broken PNG).
-                    WriteSidecars(SidecarPaths(filePath), rating, createAtZero: recordZero);
-                    return new RatingResult(true, rating: rating);
-                }
-                // Formats Fly does not write into: Fly creates no .xmp for them, since Lightroom and most apps only
-                // read ratings stored inside these files. One another app created (darktable) is kept in step.
-                var existing = SidecarPaths(filePath).Where(File.Exists).ToList();
-                if (existing.Count == 0) return new RatingResult(false, unsupported: true);
-                WriteSidecars(existing, rating);
+
+                // Embedded: keep an existing sidecar in step so apps that read it agree, never create one.
+                // Formats Fly does not write into get no new .xmp either, since Lightroom and most apps only read
+                // ratings stored inside those files. One another app created (darktable) is kept in step.
+                var existing = sidecars.Where(File.Exists).ToList();
+                if (!embedded && existing.Count == 0) return new RatingResult(false, unsupported: true);
+                if (existing.Count > 0) WriteSidecars(existing, rating);
                 return new RatingResult(true, rating: rating);
             }
             catch (Exception ex)
@@ -163,7 +162,7 @@ internal static class XmpRatingWriter
     /// stays as its writer left it. Throws when that is not possible or the result does not read back as
     /// <paramref name="rating"/>, so a damaged packet is never written.
     /// </summary>
-    internal static string ApplyRating(string? xml, int rating, bool standalone = false)
+    private static string ApplyRating(string? xml, int rating, bool standalone = false)
     {
         if (string.IsNullOrWhiteSpace(xml)) return NewPacket(rating, standalone);
 
@@ -180,7 +179,8 @@ internal static class XmpRatingWriter
         var value = rating.ToString(CultureInfo.InvariantCulture);
         var edited = ReplacePropertyValue(xml, Xmp.NamespaceName, "Rating", value, out var found);
         if (!found) edited = InsertRatingAttribute(xml, value);
-        return ReplacePropertyValue(edited, MicrosoftPhotoNamespace, "Rating", MicrosoftPhotoRating(rating), out _);
+        return ReplacePropertyValue(edited, MicrosoftPhotoNamespace, "Rating",
+            MicrosoftPhotoRating(rating).ToString(CultureInfo.InvariantCulture), out _);
     }
 
     /// <summary>
@@ -222,7 +222,7 @@ internal static class XmpRatingWriter
         Regex.Matches(xml, @"xmlns:([\w.-]+)\s*=\s*([""'])" + Regex.Escape(namespaceUri) + @"\2")
             .Select(m => m.Groups[1].Value).Distinct();
 
-    internal static int? ParseRating(string? xml)
+    private static int? ParseRating(string? xml)
     {
         if (string.IsNullOrWhiteSpace(xml)) return null;
         // Some writers pad the packet with NULs, which XDocument rejects.
@@ -235,7 +235,7 @@ internal static class XmpRatingWriter
         return null;
     }
 
-    // Spec type is Real, so "3.0" is valid; -1 means rejected and shows no stars.
+    // Spec type is Real, so "3.0" is valid. Adobe's -1 (rejected) clamps to 0 and shows no stars.
     private static int? ParseRatingValue(string? text) =>
         double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out var parsed)
             ? Math.Clamp((int)Math.Round(parsed), 0, 5)
@@ -296,24 +296,22 @@ internal static class XmpRatingWriter
             if (ParseRatingValue(text) is { } rating) return rating;
         }
 
-        foreach (var exif in directories.OfType<ExifDirectoryBase>())
-            if (exif.TryGetInt32(ExifDirectoryBase.TagRating, out var rating))
-                return Math.Clamp(rating, 0, 5);
+        return FirstTagRating(directories.OfType<ExifDirectoryBase>(), ExifDirectoryBase.TagRating)
+               ?? FirstTagRating(directories.OfType<SonyType1MakernoteDirectory>(), SonyRatingTag)
+               ?? FirstTagRating(directories.OfType<FujifilmMakernoteDirectory>(), FujifilmRatingTag);
+    }
 
-        foreach (var sony in directories.OfType<SonyType1MakernoteDirectory>())
-            if (sony.TryGetInt32(SonyRatingTag, out var rating))
+    private static int? FirstTagRating(IEnumerable<MetadataExtractor.Directory> directories, int tag)
+    {
+        foreach (var directory in directories)
+            if (directory.TryGetInt32(tag, out var rating))
                 return Math.Clamp(rating, 0, 5);
-
-        foreach (var fujifilm in directories.OfType<FujifilmMakernoteDirectory>())
-            if (fujifilm.TryGetInt32(FujifilmRatingTag, out var rating))
-                return Math.Clamp(rating, 0, 5);
-
         return null;
     }
 
-    private static string MicrosoftPhotoRating(int rating) => rating switch
+    private static int MicrosoftPhotoRating(int rating) => rating switch
     {
-        0 => "0", 1 => "1", 2 => "25", 3 => "50", 4 => "75", _ => "99"
+        0 => 0, 1 => 1, 2 => 25, 3 => 50, 4 => 75, _ => 99
     };
 
     // Inside JPEG/TIFF/PNG the packet keeps its xpacket wrapper, which lets readers find it in binary data.
@@ -390,7 +388,7 @@ internal static class XmpRatingWriter
             if (!exists && rating == 0 && !createAtZero) continue;
             WriteAtomic(target, exists
                 ? EditExistingSidecar(target, rating)
-                : new UTF8Encoding(false).GetBytes(ApplyRating(null, rating, standalone: true)));
+                : StrictUtf8.GetBytes(ApplyRating(null, rating, standalone: true)));
         }
     }
 
@@ -405,14 +403,28 @@ internal static class XmpRatingWriter
         return hasBom ? [.. bom, .. edited] : edited;
     }
 
-    private static void WriteAtomic(string target, byte[] contents)
+    private static void WriteAtomic(string target, byte[] contents) =>
+        ReplaceViaTemp(target, temp =>
+        {
+            File.WriteAllBytes(temp, contents);
+            return true;
+        });
+
+    /// <summary>
+    /// Runs <paramref name="writeTemp"/> against a temp path next to <paramref name="target"/>, then swaps the temp in.
+    /// writeTemp returns false when the file cannot be patched, or true without creating the temp when there is
+    /// nothing to change; the target is left alone in both cases. The temp never outlives the call.
+    /// </summary>
+    private static bool ReplaceViaTemp(string target, Func<string, bool> writeTemp)
     {
         var temp = target + "." + Guid.NewGuid().ToString("N") + ".tmp";
         try
         {
-            File.WriteAllBytes(temp, contents);
+            if (!writeTemp(temp)) return false;
+            if (!File.Exists(temp)) return true;
             if (File.Exists(target)) File.Replace(temp, target, null);
             else File.Move(temp, target);
+            return true;
         }
         finally
         {
@@ -425,79 +437,110 @@ internal static class XmpRatingWriter
     /// <summary>Start includes any 0xFF fill bytes before the marker; PayloadStart is after the length field.</summary>
     private readonly record struct Segment(long Start, long PayloadStart, long End, int Marker, string Id);
 
-    private sealed class JpegLayout
+    private static Segment? FindSegment(List<Segment> segments, int marker, string id)
     {
-        public List<Segment> Segments { get; } = [];
+        foreach (var segment in segments)
+            if (segment.Marker == marker && segment.Id == id) return segment;
+        return null;
     }
 
     private static int? ReadJpegRating(string filePath)
     {
         using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        var layout = ScanJpeg(stream);
-        // Cast first: FirstOrDefault on the struct itself would return a zeroed segment instead of null.
-        var xmp = layout?.Segments.Where(s => s.Marker == App1 && s.Id == XmpSegmentId).Cast<Segment?>().FirstOrDefault();
-        return xmp is { } segment ? ParseRating(ReadXmp(stream, segment)) : null;
+        var segments = ScanJpeg(stream);
+        return segments != null && FindSegment(segments, App1, XmpSegmentId) is { } xmp ? ParseRating(ReadXmp(stream, xmp)) : null;
     }
 
     /// <summary>Embeds the rating; false when the file cannot be patched safely (caller falls back to a sidecar).</summary>
-    private static bool TryWriteJpeg(string filePath, int rating, bool recordZero)
+    private static bool TryWriteJpeg(string filePath, int rating, bool recordZero) => ReplaceViaTemp(filePath, temp =>
     {
-        string temp = filePath + "." + Guid.NewGuid().ToString("N") + ".tmp";
-        try
+        using var source = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+        var segments = ScanJpeg(source);
+        if (segments == null) return false;
+
+        // Multi-picture JPEG (Ultra HDR, motion photo): its MP entries must follow the size change below.
+        var mpf = FindSegment(segments, App2, "MPF");
+        var mpEntries = mpf is { } m ? ReadMpEntries(source, m) : null;
+        if (mpf != null && mpEntries == null) return false;
+
+        var existing = FindSegment(segments, App1, XmpSegmentId);
+        if (existing == null && rating == 0 && !recordZero) return true;
+
+        var xml = ApplyRating(existing is { } e ? ReadXmp(source, e) : null, rating);
+        var payload = StrictUtf8.GetBytes(xml);
+        if (payload.Length > MaxXmpPayloadBytes) return false;
+
+        var header = Encoding.ASCII.GetBytes(XmpSegmentId + "\0");
+        var length = 2 + header.Length + payload.Length;
+
+        // Replace in place, or insert after the leading JFIF/Exif segments.
+        var cutStart = existing?.Start ?? InsertionOffset(segments);
+        var cutEnd = existing?.End ?? cutStart;
+
+        using var destination = new FileStream(temp, FileMode.CreateNew, FileAccess.ReadWrite);
+        CopyRange(source, destination, 0, cutStart);
+        destination.Write([0xFF, App1, (byte)(length >> 8), (byte)length]);
+        destination.Write(header);
+        destination.Write(payload);
+        CopyRange(source, destination, cutEnd, source.Length);
+
+        // A segment moved by the size change only when it sits after the XMP segment.
+        var delta = 2 + length - (cutEnd - cutStart);
+        long ShiftOf(Segment segment) => segment.Start < cutStart ? 0 : delta;
+
+        if (FindSegment(segments, App1, "Exif") is { } exif)
+            SyncExifRating(destination, exif.PayloadStart + ShiftOf(exif) + 6, rating, exif.End + ShiftOf(exif)); // 6 = "Exif\0\0"
+
+        if (mpf is { } mpfSegment && mpEntries is { } entries && delta != 0)
+            ShiftMpEntries(destination, entries.Header, entries.At + ShiftOf(mpfSegment), entries.Count, delta,
+                shiftOffsets: mpfSegment.Start < cutStart);
+        return true;
+    });
+
+    private const int MpEntryTag = 0xB002;
+
+    /// <summary>
+    /// The MP entry table of a multi-picture JPEG: absolute position and entry count (16 bytes each), plus the MP
+    /// header layout for its byte order. Null when the MPF segment cannot be read.
+    /// </summary>
+    private static (TiffLayout Header, long At, int Count)? ReadMpEntries(Stream stream, Segment mpf)
+    {
+        var header = ReadTiffLayout(stream, mpf.PayloadStart + 4, mpf.End); // 4 = "MPF\0"
+        if (header == null) return null;
+        for (var i = 0; i < header.EntryCount; i++)
         {
-            using (var source = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                var layout = ScanJpeg(source);
-                if (layout == null) return false;
-
-                // MPF stores the primary image size and offsets; growing the file before it would invalidate them.
-                if (layout.Segments.Any(s => s.Marker == App2 && s.Id == "MPF")) return false;
-
-                var existing = layout.Segments.Where(s => s.Marker == App1 && s.Id == XmpSegmentId)
-                    .Cast<Segment?>().FirstOrDefault();
-                if (existing == null && rating == 0 && !recordZero) return true;
-
-                var existingXml = existing is { } e ? ReadXmp(source, e) : null;
-
-                var xml = ApplyRating(existingXml, rating);
-                var payload = new UTF8Encoding(false).GetBytes(xml);
-                if (payload.Length > MaxXmpPayloadBytes) return false;
-
-                var header = Encoding.ASCII.GetBytes(XmpSegmentId + "\0");
-                var length = 2 + header.Length + payload.Length;
-
-                // Replace in place, or insert after the leading JFIF/Exif segments.
-                var cutStart = existing?.Start ?? InsertionOffset(layout);
-                var cutEnd = existing?.End ?? cutStart;
-
-                using var destination = new FileStream(temp, FileMode.CreateNew, FileAccess.ReadWrite);
-                CopyRange(source, destination, 0, cutStart);
-                destination.Write([0xFF, App1, (byte)(length >> 8), (byte)length]);
-                destination.Write(header);
-                destination.Write(payload);
-                CopyRange(source, destination, cutEnd, source.Length);
-
-                // The EXIF segment moved by the size change only when it sits after the XMP segment.
-                if (layout.Segments.FirstOrDefault(s => s.Marker == App1 && s.Id == "Exif") is { Marker: App1 } exif)
-                {
-                    var shift = exif.Start < cutStart ? 0 : 2 + length - (cutEnd - cutStart);
-                    SyncExifRating(destination, exif.PayloadStart + shift + 6, rating, exif.End + shift); // 6 = "Exif\0\0"
-                }
-            }
-
-            File.Replace(temp, filePath, null);
-            return true;
+            if (header.Tag(i) != MpEntryTag) continue;
+            var count = header.Count(i) / 16; // type UNDEFINED: the count is in bytes
+            var at = header.Value(i);
+            return count >= 1 && at + count * 16 <= mpf.End ? (header, at, (int)count) : null;
         }
-        finally
-        {
-            if (File.Exists(temp)) File.Delete(temp);
-        }
+        return null;
     }
 
-    private static long InsertionOffset(JpegLayout layout)
+    /// <summary>
+    /// Keeps the MP entries valid after the primary image grew by <paramref name="delta"/> bytes. Entry 0 holds the
+    /// primary image size. The other entries hold offsets relative to the MP header, which change only when the
+    /// header sits before the edit (<paramref name="shiftOffsets"/>); otherwise header and images moved together.
+    /// </summary>
+    private static void ShiftMpEntries(Stream stream, TiffLayout header, long at, int count, long delta, bool shiftOffsets)
+    {
+        var entries = new byte[count * 16];
+        stream.Position = at;
+        stream.ReadExactly(entries);
+        if (header.U32(entries, 4) is var primarySize and > 0)
+            header.Put32(entries, 4, primarySize + delta);
+        if (shiftOffsets)
+            for (var i = 1; i < count; i++)
+                if (header.U32(entries, i * 16 + 8) is var offset and > 0)
+                    header.Put32(entries, i * 16 + 8, offset + delta);
+        stream.Position = at;
+        stream.Write(entries);
+    }
+
+    private static long InsertionOffset(List<Segment> segments)
     {
         long offset = 2;
-        foreach (var segment in layout.Segments)
+        foreach (var segment in segments)
         {
             var leading = segment.Marker == App0 || segment is { Marker: App1, Id: "Exif" };
             if (!leading) break;
@@ -515,13 +558,13 @@ internal static class XmpRatingWriter
         return StrictUtf8.GetString(buffer); // padding kept: ParseRating trims it, ApplyRating writes it back
     }
 
-    private static JpegLayout? ScanJpeg(Stream stream)
+    private static List<Segment>? ScanJpeg(Stream stream)
     {
         if (stream.Length < 4) return null;
         stream.Position = 0;
         if (stream.ReadByte() != 0xFF || stream.ReadByte() != Soi) return null;
 
-        var layout = new JpegLayout();
+        var segments = new List<Segment>();
         var idBuffer = new byte[40];
         long position = 2;
         while (true)
@@ -531,7 +574,7 @@ internal static class XmpRatingWriter
             int marker;
             do marker = stream.ReadByte(); while (marker == 0xFF);
             if (marker < 0) return null;
-            if (marker is Sos or Eoi) return layout;
+            if (marker is Sos or Eoi) return segments;
 
             // Markers without a length field
             if (marker is 0x01 or Soi || marker is >= 0xD0 and <= 0xD7 || marker == 0x00)
@@ -558,7 +601,7 @@ internal static class XmpRatingWriter
                 id = Encoding.ASCII.GetString(idBuffer, 0, nul < 0 ? read : nul);
             }
 
-            layout.Segments.Add(new Segment(position, payloadStart, end, marker, id));
+            segments.Add(new Segment(position, payloadStart, end, marker, id));
             position = end;
         }
     }
@@ -599,11 +642,18 @@ internal static class XmpRatingWriter
         return null;
     }
 
-    /// <summary>
-    /// The XMP iTXt chunk's text, plus the bytes before it (keyword, flags, language tags) kept as they are.
-    /// Null when <paramref name="chunk"/> is not the XMP chunk.
-    /// </summary>
-    private static (byte[] Header, string Xml, bool Compressed)? ReadPngXmp(Stream stream, PngChunk chunk)
+    /// <summary>The XMP iTXt chunk: its text, plus the bytes before it (keyword, flags, language tags) kept as they are.</summary>
+    private sealed record PngXmp(PngChunk Chunk, byte[] Header, string Xml, bool Compressed);
+
+    private static PngXmp? FindPngXmp(Stream stream, List<PngChunk> chunks)
+    {
+        foreach (var chunk in chunks)
+            if (ReadPngXmp(stream, chunk) is { } xmp) return xmp;
+        return null;
+    }
+
+    /// <summary>Null when <paramref name="chunk"/> is not the XMP chunk.</summary>
+    private static PngXmp? ReadPngXmp(Stream stream, PngChunk chunk)
     {
         if (chunk.Type != "iTXt") return null;
         var data = new byte[chunk.Length];
@@ -626,17 +676,14 @@ internal static class XmpRatingWriter
             using (var zlib = new ZLibStream(new MemoryStream(text), CompressionMode.Decompress)) zlib.CopyTo(inflated);
             text = inflated.ToArray();
         }
-        return (data[..textStart], StrictUtf8.GetString(text), compressed);
+        return new PngXmp(chunk, data[..textStart], StrictUtf8.GetString(text), compressed);
     }
 
     private static int? ReadPngRating(string filePath)
     {
         using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         var chunks = ScanPng(stream);
-        if (chunks == null) return null;
-        foreach (var chunk in chunks)
-            if (ReadPngXmp(stream, chunk) is { } xmp) return ParseRating(xmp.Xml);
-        return null;
+        return chunks != null && FindPngXmp(stream, chunks) is { } xmp ? ParseRating(xmp.Xml) : null;
     }
 
     /// <summary>
@@ -644,78 +691,43 @@ internal static class XmpRatingWriter
     /// and compression; a new one goes before the first IDAT, where readers look for metadata. Every other chunk is
     /// copied byte for byte. False for files that are not a complete PNG.
     /// </summary>
-    private static bool TryWritePng(string filePath, int rating, bool recordZero)
+    private static bool TryWritePng(string filePath, int rating, bool recordZero) => ReplaceViaTemp(filePath, temp =>
     {
-        var temp = filePath + "." + Guid.NewGuid().ToString("N") + ".tmp";
-        try
+        using var source = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+        var chunks = ScanPng(source);
+        if (chunks == null) return false;
+
+        var xmp = FindPngXmp(source, chunks);
+        if (xmp == null && rating == 0 && !recordZero) return true;
+
+        var text = StrictUtf8.GetBytes(ApplyRating(xmp?.Xml, rating));
+        if (xmp is { Compressed: true })
         {
-            using (var source = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                var chunks = ScanPng(source);
-                if (chunks == null) return false;
-
-                PngChunk? existing = null;
-                (byte[] Header, string Xml, bool Compressed)? xmp = null;
-                foreach (var chunk in chunks)
-                {
-                    if (ReadPngXmp(source, chunk) is not { } found) continue;
-                    existing = chunk;
-                    xmp = found;
-                    break;
-                }
-                if (xmp == null && rating == 0 && !recordZero) return true;
-
-                var text = StrictUtf8.GetBytes(ApplyRating(xmp?.Xml, rating));
-                if (xmp is { Compressed: true })
-                {
-                    using var deflated = new MemoryStream();
-                    using (var zlib = new ZLibStream(deflated, CompressionLevel.Optimal, leaveOpen: true)) zlib.Write(text);
-                    text = deflated.ToArray();
-                }
-                // New chunk header: keyword \0, uncompressed, method 0, empty language tag \0, empty translated keyword \0
-                var header = xmp?.Header ?? [.. Encoding.ASCII.GetBytes(PngXmpKeyword), 0, 0, 0, 0, 0];
-                byte[] data = [.. header, .. text];
-
-                var cutStart = existing?.Start ?? chunks.First(c => c.Type is "IDAT" or "IEND").Start;
-                var cutEnd = existing?.End ?? cutStart;
-
-                using var destination = new FileStream(temp, FileMode.CreateNew, FileAccess.Write);
-                CopyRange(source, destination, 0, cutStart);
-                WritePngChunk(destination, "iTXt", data);
-                CopyRange(source, destination, cutEnd, source.Length);
-            }
-
-            File.Replace(temp, filePath, null);
-            return true;
+            using var deflated = new MemoryStream();
+            using (var zlib = new ZLibStream(deflated, CompressionLevel.Optimal, leaveOpen: true)) zlib.Write(text);
+            text = deflated.ToArray();
         }
-        finally
-        {
-            if (File.Exists(temp)) File.Delete(temp);
-        }
-    }
+        // New chunk header: keyword \0, uncompressed, method 0, empty language tag \0, empty translated keyword \0
+        var header = xmp?.Header ?? [.. Encoding.ASCII.GetBytes(PngXmpKeyword), 0, 0, 0, 0, 0];
+        byte[] data = [.. header, .. text];
+
+        var cutStart = xmp?.Chunk.Start ?? chunks.First(c => c.Type is "IDAT" or "IEND").Start;
+        var cutEnd = xmp?.Chunk.End ?? cutStart;
+
+        using var destination = new FileStream(temp, FileMode.CreateNew, FileAccess.Write);
+        CopyRange(source, destination, 0, cutStart);
+        WritePngChunk(destination, "iTXt", data);
+        CopyRange(source, destination, cutEnd, source.Length);
+        return true;
+    });
 
     private static void WritePngChunk(Stream stream, string type, byte[] data)
     {
-        var typeBytes = Encoding.ASCII.GetBytes(type);
+        byte[] typeAndData = [.. Encoding.ASCII.GetBytes(type), .. data];
         stream.Write([(byte)(data.Length >> 24), (byte)(data.Length >> 16), (byte)(data.Length >> 8), (byte)data.Length]);
-        stream.Write(typeBytes);
-        stream.Write(data);
-        var crc = Crc32(Crc32(0xFFFFFFFF, typeBytes), data) ^ 0xFFFFFFFF;
+        stream.Write(typeAndData);
+        var crc = Crc32.Compute(typeAndData); // covers type and data, not the length
         stream.Write([(byte)(crc >> 24), (byte)(crc >> 16), (byte)(crc >> 8), (byte)crc]);
-    }
-
-    private static readonly uint[] Crc32Table = Enumerable.Range(0, 256).Select(n =>
-    {
-        var c = (uint)n;
-        for (var k = 0; k < 8; k++) c = (c & 1) != 0 ? 0xEDB88320 ^ (c >> 1) : c >> 1;
-        return c;
-    }).ToArray();
-
-    /// <summary>PNG's CRC-32 (ISO 3309), continued from <paramref name="crc"/>.</summary>
-    private static uint Crc32(uint crc, byte[] bytes)
-    {
-        foreach (var b in bytes) crc = Crc32Table[(crc ^ b) & 0xFF] ^ (crc >> 8);
-        return crc;
     }
 
     // ---------- TIFF / DNG ----------
@@ -738,23 +750,28 @@ internal static class XmpRatingWriter
         /// <summary>Entry value as an absolute stream position (for entries whose value is an offset).</summary>
         public long Value(int i) => TiffStart + U32(Entries, i * 12 + 8);
 
-        public int U16(byte[] b, int o) => LittleEndian ? b[o] | b[o + 1] << 8 : b[o] << 8 | b[o + 1];
+        public int U16(byte[] b, int o) => LittleEndian
+            ? BinaryPrimitives.ReadUInt16LittleEndian(b.AsSpan(o))
+            : BinaryPrimitives.ReadUInt16BigEndian(b.AsSpan(o));
 
         public long U32(byte[] b, int o) => LittleEndian
-            ? (uint)(b[o] | b[o + 1] << 8 | b[o + 2] << 16 | b[o + 3] << 24)
-            : (uint)(b[o] << 24 | b[o + 1] << 16 | b[o + 2] << 8 | b[o + 3]);
+            ? BinaryPrimitives.ReadUInt32LittleEndian(b.AsSpan(o))
+            : BinaryPrimitives.ReadUInt32BigEndian(b.AsSpan(o));
 
         public void Put16(byte[] b, int o, int v)
         {
-            if (LittleEndian) { b[o] = (byte)v; b[o + 1] = (byte)(v >> 8); }
-            else { b[o] = (byte)(v >> 8); b[o + 1] = (byte)v; }
+            if (LittleEndian) BinaryPrimitives.WriteUInt16LittleEndian(b.AsSpan(o), (ushort)v);
+            else BinaryPrimitives.WriteUInt16BigEndian(b.AsSpan(o), (ushort)v);
         }
 
         public void Put32(byte[] b, int o, long v)
         {
-            if (LittleEndian) { b[o] = (byte)v; b[o + 1] = (byte)(v >> 8); b[o + 2] = (byte)(v >> 16); b[o + 3] = (byte)(v >> 24); }
-            else { b[o] = (byte)(v >> 24); b[o + 1] = (byte)(v >> 16); b[o + 2] = (byte)(v >> 8); b[o + 3] = (byte)v; }
+            if (LittleEndian) BinaryPrimitives.WriteUInt32LittleEndian(b.AsSpan(o), (uint)v);
+            else BinaryPrimitives.WriteUInt32BigEndian(b.AsSpan(o), (uint)v);
         }
+
+        /// <summary>Entry <paramref name="i"/> points at an out-of-line value (over 4 bytes) that ends by <paramref name="limit"/>.</summary>
+        public bool HasPacketWithin(int i, long limit) => Count(i) > 4 && Value(i) + Count(i) <= limit;
 
         /// <summary>Index of the XMP entry, or -1.</summary>
         public int FindXmp()
@@ -804,12 +821,10 @@ internal static class XmpRatingWriter
     {
         var index = layout.FindXmp();
         if (index < 0) return null;
-        var count = layout.Count(index);
-        var offset = layout.Value(index);
-        if (count <= 4 || offset + count > stream.Length) return null;
+        if (!layout.HasPacketWithin(index, stream.Length)) return null;
 
-        var buffer = new byte[count];
-        stream.Position = offset;
+        var buffer = new byte[layout.Count(index)];
+        stream.Position = layout.Value(index);
         stream.ReadExactly(buffer);
         return StrictUtf8.GetString(buffer); // padding kept: ParseRating trims it, FitPacket reuses it
     }
@@ -826,73 +841,65 @@ internal static class XmpRatingWriter
     /// the packet is overwritten in place when it fits, otherwise appended at the end and the tag repointed.
     /// A file without the tag gets a rewritten IFD0 appended at the end. False for files this cannot patch (BigTIFF).
     /// </summary>
-    private static bool TryWriteTiff(string filePath, int rating, bool recordZero)
+    private static bool TryWriteTiff(string filePath, int rating, bool recordZero) => ReplaceViaTemp(filePath, temp =>
     {
-        var temp = filePath + "." + Guid.NewGuid().ToString("N") + ".tmp";
-        try
+        // Decide on the original first, so a file that needs no change (or cannot be patched) is never copied.
+        string? existingXml;
+        using (var source = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
         {
-            File.Copy(filePath, temp);
-            using (var stream = new FileStream(temp, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+            var sourceLayout = ReadTiffLayout(source);
+            if (sourceLayout == null) return false;
+            existingXml = ReadTiffXmp(source, sourceLayout);
+        }
+        if (existingXml == null && rating == 0 && !recordZero) return true;
+
+        File.Copy(filePath, temp);
+        using var stream = new FileStream(temp, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+        var layout = ReadTiffLayout(stream)!; // identical copy, and the path lock keeps it that way
+        var index = layout.FindXmp();
+        var xml = ApplyRating(existingXml, rating);
+        var inPlace = index >= 0 && layout.HasPacketWithin(index, stream.Length)
+            ? FitPacket(xml, layout.Count(index))
+            : null;
+
+        if (inPlace != null)
+        {
+            // Same size as before, so the tag stays valid and no other bytes move.
+            stream.Position = layout.Value(index);
+            stream.Write(inPlace);
+        }
+        else
+        {
+            // Padded, so later edits fit in place instead of appending again.
+            var packet = FitPacket(xml, StrictUtf8.GetByteCount(xml) + XmpPaddingBytes)!;
+            var packetOffset = AppendAligned(stream, packet);
+            if (index >= 0)
             {
-                var layout = ReadTiffLayout(stream);
-                if (layout == null) return false;
+                var entry = layout.Entries.AsSpan(index * 12, 12).ToArray();
+                layout.Put16(entry, 2, TiffByte);
+                layout.Put32(entry, 4, packet.Length);
+                layout.Put32(entry, 8, packetOffset - layout.TiffStart);
+                stream.Position = layout.Ifd0Offset + 2 + index * 12;
+                stream.Write(entry);
 
-                var index = layout.FindXmp();
-                var existingXml = ReadTiffXmp(stream, layout);
-                if (existingXml == null && rating == 0 && !recordZero) return true;
-
-                var xml = ApplyRating(existingXml, rating);
-                var inPlace = index >= 0 && layout.Count(index) > 4
-                              && layout.Value(index) + layout.Count(index) <= stream.Length
-                    ? FitPacket(xml, layout.Count(index))
-                    : null;
-
-                if (inPlace != null)
+                // One XMP packet per file: blank the old one so nothing that scans the file finds a stale rating.
+                if (layout.HasPacketWithin(index, packetOffset))
                 {
-                    // Same size as before, so the tag stays valid and no other bytes move.
+                    var blank = new byte[layout.Count(index)];
+                    Array.Fill(blank, (byte)' ');
                     stream.Position = layout.Value(index);
-                    stream.Write(inPlace);
+                    stream.Write(blank);
                 }
-                else
-                {
-                    // Padded, so later edits fit in place instead of appending again.
-                    var packet = FitPacket(xml, StrictUtf8.GetByteCount(xml) + XmpPaddingBytes)!;
-                    var packetOffset = AppendAligned(stream, packet);
-                    if (index >= 0)
-                    {
-                        var entry = layout.Entries.AsSpan(index * 12, 12).ToArray();
-                        layout.Put16(entry, 2, TiffByte);
-                        layout.Put32(entry, 4, packet.Length);
-                        layout.Put32(entry, 8, packetOffset - layout.TiffStart);
-                        stream.Position = layout.Ifd0Offset + 2 + index * 12;
-                        stream.Write(entry);
-
-                        // One XMP packet per file: blank the old one so nothing that scans the file finds a stale rating.
-                        if (layout.Count(index) > 4 && layout.Value(index) + layout.Count(index) <= packetOffset)
-                        {
-                            var blank = new byte[layout.Count(index)];
-                            Array.Fill(blank, (byte)' ');
-                            stream.Position = layout.Value(index);
-                            stream.Write(blank);
-                        }
-                    }
-                    else
-                    {
-                        AppendIfdWithXmpEntry(stream, layout, packet.Length, packetOffset);
-                    }
-                }
-
-                SyncExifRating(stream, 0, rating);
             }
+            else
+            {
+                AppendIfdWithXmpEntry(stream, layout, packet.Length, packetOffset);
+            }
+        }
 
-            File.Replace(temp, filePath, null);
-            return true;
-        }
-        finally
-        {
-            if (File.Exists(temp)) File.Delete(temp);
-        }
-    }
+        SyncExifRating(stream, 0, rating);
+        return true;
+    });
 
     private const int XmpPaddingBytes = 2048; // what the XMP spec suggests
 
@@ -936,7 +943,7 @@ internal static class XmpRatingWriter
         {
             int value;
             if (layout.Tag(i) == ExifRatingTag) value = rating;
-            else if (layout.Tag(i) == ExifRatingPercentTag) value = int.Parse(MicrosoftPhotoRating(rating), CultureInfo.InvariantCulture);
+            else if (layout.Tag(i) == ExifRatingPercentTag) value = MicrosoftPhotoRating(rating);
             else continue;
             if (layout.U16(layout.Entries, i * 12 + 2) != TiffShort || layout.Count(i) != 1) continue;
 

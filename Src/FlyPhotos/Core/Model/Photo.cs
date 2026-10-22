@@ -27,7 +27,6 @@ internal partial class Photo : IDisposable
     public const int RatingUnknown = -1;
 
     private int _rating = RatingUnknown;
-    private int _ratingVersion;
     private int _ratingReadStarted;
 
     /// <summary>Star rating 0-5, or <see cref="RatingUnknown"/> until it has been read from disk.</summary>
@@ -37,10 +36,11 @@ internal partial class Photo : IDisposable
         set => Volatile.Write(ref _rating, value);
     }
 
-    /// <summary>Bumped by every rating write, so a read that began earlier can tell its result is stale.</summary>
-    public int RatingVersion => Volatile.Read(ref _ratingVersion);
-
-    public int BumpRatingVersion() => Interlocked.Increment(ref _ratingVersion);
+    /// <summary>
+    /// Stores a rating read from disk unless one is already known. Writes always set a known rating first,
+    /// so a read that finishes after a write cannot overwrite it.
+    /// </summary>
+    public void SetRatingIfUnknown(int rating) => Interlocked.CompareExchange(ref _rating, rating, RatingUnknown);
 
     /// <summary>True for the one caller that should read the rating from disk; the read happens once per photo.</summary>
     public bool TryBeginRatingRead() => Interlocked.Exchange(ref _ratingReadStarted, 1) == 0;

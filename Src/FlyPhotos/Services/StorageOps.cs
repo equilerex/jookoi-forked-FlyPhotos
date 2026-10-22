@@ -264,7 +264,7 @@ internal class StorageOps
     public static async Task<DeleteResult> DeleteFileFromDisk(string filePath)
     {
         List<string> sidecars = AppConfig.Settings.DeleteRatingSidecarsWithPhoto
-            ? XmpRatingWriter.ExistingSidecars(filePath)
+            ? RatingMetadata.ExistingSidecars(filePath)
             : [];
         var result = await DeleteSingleFileFromDisk(filePath);
         if (!result.DeleteSuccess) return result;
@@ -275,10 +275,10 @@ internal class StorageOps
         return result;
     }
 
-    /// <summary>Writes the star rating (0-5) for <paramref name="filePath"/>; see <see cref="XmpRatingWriter"/>.</summary>
+    /// <summary>Writes the star rating (0-5) for <paramref name="filePath"/>; see <see cref="RatingMetadata"/>.</summary>
     public static Task<RatingResult> SetRatingOnDisk(string filePath, int rating) => Task.Run(() =>
     {
-        var result = XmpRatingWriter.WriteRating(filePath, rating, AppConfig.Settings.EmbedRatingsInFiles);
+        var result = RatingMetadata.WriteRating(filePath, rating, AppConfig.Settings.EmbedRatingsInFiles);
         if (!result.Success && !result.Unsupported) Logger.Error($"Failed to rate '{filePath}': {result.FailMessage}");
         return result;
     });
@@ -340,7 +340,7 @@ internal class StorageOps
             if (File.Exists(newPath))
                 return new RenameResult(false, L.Get("RenameFailed/FileAlreadyExists"));
 
-            var sidecars = XmpRatingWriter.ExistingSidecars(oldPath);
+            var sidecars = RatingMetadata.ExistingSidecars(oldPath);
 
             File.Move(oldPath, newPath);
             Logger.Info($"Successfully renamed file: {oldPath} -> {newPath}");
@@ -350,7 +350,7 @@ internal class StorageOps
             {
                 try
                 {
-                    var target = XmpRatingWriter.RenamedSidecar(sidecar, oldPath, newPath);
+                    var target = RatingMetadata.RenamedSidecar(sidecar, oldPath, newPath);
                     if (!File.Exists(target)) File.Move(sidecar, target);
                 }
                 catch (Exception ex)
