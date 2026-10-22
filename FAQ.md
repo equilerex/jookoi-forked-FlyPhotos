@@ -223,23 +223,16 @@ Fly saves the standard `xmp:Rating` (0–5):
 
 | File | Stored in |
 |---|---|
-| RAW (`.cr2` `.nef` `.arw` `.raf`...) | `.xmp` file next to it. RAW never changed. |
-| `.jpg` `.tif` `.dng` | Inside the file. A setting switches it to an `.xmp` file. |
+| RAW (`.cr2` `.nef` `.arw` `.raf`...) | `IMG.xmp` next to it (Lightroom style). RAW never changed. |
+| `.jpg` `.tif` `.dng` `.png` | Inside the file. A setting switches it to an `.xmp` file. |
 | Ultra HDR / motion JPEG | `photo.jpg.xmp` (embedding breaks them) |
-| Others (`.heic` `.png`...) | `photo.heic.xmp` |
+| Others (`.gif` `.bmp` `.webp`...) | Not rated by Fly. An existing `photo.gif.xmp` from another app is updated. |
 
 - ⚠️ Lightroom and Bridge ignore `.xmp` files for JPEG and DNG.
-- Existing `.xmp` files are always updated.
-- Camera ratings (XMP, EXIF, Sony, Fujifilm) show in Fly. Not read from `.mrw` `.x3f` `.crw` `.raw`.
+- Existing `.xmp` files are always updated too, e.g. darktable's `IMG.CR2.xmp`.
+- **darktable:** ratings you change in darktable show in Fly only if darktable is set to sync its ratings with `.xmp` files. Turn this on in darktable's settings.
+- darktable imports `IMG.xmp` the first time it sees a photo.
 - Rename and delete take the `.xmp` file along. Delete has a toggle in Settings.
-
-**RAW `.xmp` file name** (Settings, new files only):
-
-| Setting | For `IMG.CR2` | Read by |
-|---|---|---|
-| Adobe (default) | `IMG.xmp` | Lightroom, Bridge, Capture One |
-| darktable / digiKam | `IMG.CR2.xmp` | darktable, digiKam |
-| Both | both | all |
 
 **Already-imported photos** keep the app's catalog rating until refreshed:
 

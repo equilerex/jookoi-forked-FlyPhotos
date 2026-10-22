@@ -1252,26 +1252,8 @@ High Quality Cubic – Najwyższej jakości skalowanie dla zdjęć.</value>
   <data name="Exif_Rating" xml:space="preserve">
     <value>Ocena</value>
   </data>
-  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
-    <value>Plik oceny dla zdjęć RAW</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
-    <value>Adobe</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
-    <value>darktable / digiKam</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
-    <value>Oba pliki</value>
-  </data>
-  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
-    <value>Nowe pliki ocen mają nazwę IMG_1234.xmp. Używają go Lightroom, Bridge i Capture One.</value>
-  </data>
-  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
-    <value>Nowe pliki ocen mają nazwę IMG_1234.CR2.xmp. Używają go darktable i digiKam.</value>
-  </data>
-  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
-    <value>Zapisuje oceny jako IMG_1234.xmp i IMG_1234.CR2.xmp. Działa ze wszystkimi wymienionymi aplikacjami.</value>
+  <data name="SettingsCardRatingFiles.Header" xml:space="preserve">
+    <value>Pliki ocen</value>
   </data>
   <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
     <value>Usuwaj pliki ocen razem ze zdjęciem</value>
@@ -1280,9 +1262,15 @@ High Quality Cubic – Najwyższej jakości skalowanie dla zdjęć.</value>
     <value>Usunięcie zdjęcia przenosi też jego pliki .xmp do Kosza. Mogą zawierać edycje z innych aplikacji.</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
-    <value>Zapisuj oceny w plikach JPEG i TIFF</value>
+    <value>Zapisuj oceny w plikach JPEG, TIFF, DNG i PNG</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
-    <value>Wyłączone: używa pliku .xmp obok zdjęcia i zachowuje datę modyfikacji. Lightroom i Bridge nie czytają plików .xmp dla JPEG ani DNG.</value>
+    <value>Wyłączone: zapisuje tylko plik .xmp obok zdjęcia. Głównie dla darktable. Aplikacje Adobe go ignorują.</value>
+  </data>
+  <data name="SettingsCardRatingFiles.Description" xml:space="preserve">
+    <value>Zdjęcia RAW otrzymują obok plik .xmp.</value>
+  </data>
+  <data name="Rating.Unsupported" xml:space="preserve">
+    <value>Nie można ocenić tego typu pliku</value>
   </data>
 </root>

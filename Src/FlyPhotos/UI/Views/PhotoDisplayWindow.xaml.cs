@@ -1267,17 +1267,19 @@ public sealed partial class PhotoDisplayWindow
             return;
         }
 
+        // Captured before the await: the user may navigate away while the write runs.
+        var ratedPath = _photoController.GetFullPathCurrentFile();
         var result = await _photoController.RateCurrentPhoto(rating);
         if (!result.Success)
         {
-            TxtZoom.Text = L.Get("Rating/Failed");
+            TxtZoom.Text = L.Get(result.Unsupported ? "Rating/Unsupported" : "Rating/Failed");
             _canvasController.Shrug();
         }
         else
         {
             TxtZoom.Text = result.Rating == 0 ? L.Get("Rating/None") : new string('★', result.Rating);
             // A queued press has not reached the disk yet. The running write refreshes the panel when it ends.
-            if (!result.Queued) ExifInfoPanel.RefreshIfShowing(_photoController.GetFullPathCurrentFile());
+            if (!result.Queued) ExifInfoPanel.RefreshIfShowing(ratedPath);
         }
         _inactivityFader.ReportActivity();
     }

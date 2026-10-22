@@ -1252,26 +1252,8 @@ High Quality Cubic – Schaling van de hoogste kwaliteit voor foto's.</value>
   <data name="Exif_Rating" xml:space="preserve">
     <value>Waardering</value>
   </data>
-  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
-    <value>Waarderingsbestand voor RAW-foto's</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
-    <value>Adobe</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
-    <value>darktable / digiKam</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
-    <value>Beide bestanden</value>
-  </data>
-  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
-    <value>Nieuwe waarderingsbestanden heten IMG_1234.xmp. Gebruikt door Lightroom, Bridge en Capture One.</value>
-  </data>
-  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
-    <value>Nieuwe waarderingsbestanden heten IMG_1234.CR2.xmp. Gebruikt door darktable en digiKam.</value>
-  </data>
-  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
-    <value>Slaat waarderingen op als IMG_1234.xmp en IMG_1234.CR2.xmp. Werkt met alle genoemde apps.</value>
+  <data name="SettingsCardRatingFiles.Header" xml:space="preserve">
+    <value>Waarderingsbestanden</value>
   </data>
   <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
     <value>Waarderingsbestanden met de foto verwijderen</value>
@@ -1280,9 +1262,15 @@ High Quality Cubic – Schaling van de hoogste kwaliteit voor foto's.</value>
     <value>Bij het verwijderen van een foto gaan ook de .xmp-bestanden naar de Prullenbak. Die kunnen bewerkingen uit andere apps bevatten.</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
-    <value>Waarderingen in JPEG- en TIFF-bestanden opslaan</value>
+    <value>Waarderingen in JPEG-, TIFF-, DNG- en PNG-bestanden opslaan</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
-    <value>Uit: gebruikt een .xmp-bestand naast de foto en houdt de wijzigingsdatum gelijk. Lightroom en Bridge lezen geen .xmp-bestanden voor JPEG of DNG.</value>
+    <value>Uit: schrijft alleen het .xmp-bestand naast de foto. Vooral voor darktable. Adobe-apps negeren het.</value>
+  </data>
+  <data name="SettingsCardRatingFiles.Description" xml:space="preserve">
+    <value>RAW-foto's krijgen een .xmp-bestand ernaast.</value>
+  </data>
+  <data name="Rating.Unsupported" xml:space="preserve">
+    <value>Dit bestandstype kan geen waardering krijgen</value>
   </data>
 </root>

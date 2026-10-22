@@ -264,7 +264,7 @@ internal class StorageOps
     public static async Task<DeleteResult> DeleteFileFromDisk(string filePath)
     {
         List<string> sidecars = AppConfig.Settings.DeleteRatingSidecarsWithPhoto
-            ? XmpRatingWriter.ExistingSidecars(filePath, CodecDiscovery.IsRawFile(Path.GetExtension(filePath)))
+            ? XmpRatingWriter.ExistingSidecars(filePath)
             : [];
         var result = await DeleteSingleFileFromDisk(filePath);
         if (!result.DeleteSuccess) return result;
@@ -276,11 +276,10 @@ internal class StorageOps
     }
 
     /// <summary>Writes the star rating (0-5) for <paramref name="filePath"/>; see <see cref="XmpRatingWriter"/>.</summary>
-    public static Task<RatingResult> SetRatingOnDisk(string filePath, int rating, bool isRaw) => Task.Run(() =>
+    public static Task<RatingResult> SetRatingOnDisk(string filePath, int rating) => Task.Run(() =>
     {
-        var result = XmpRatingWriter.WriteRating(filePath, rating, isRaw, AppConfig.Settings.RatingSidecarStyle,
-            AppConfig.Settings.EmbedRatingsInFiles);
-        if (!result.Success) Logger.Error($"Failed to rate '{filePath}': {result.FailMessage}");
+        var result = XmpRatingWriter.WriteRating(filePath, rating, AppConfig.Settings.EmbedRatingsInFiles);
+        if (!result.Success && !result.Unsupported) Logger.Error($"Failed to rate '{filePath}': {result.FailMessage}");
         return result;
     });
 
@@ -341,7 +340,7 @@ internal class StorageOps
             if (File.Exists(newPath))
                 return new RenameResult(false, L.Get("RenameFailed/FileAlreadyExists"));
 
-            var sidecars = XmpRatingWriter.ExistingSidecars(oldPath, CodecDiscovery.IsRawFile(Path.GetExtension(oldPath)));
+            var sidecars = XmpRatingWriter.ExistingSidecars(oldPath);
 
             File.Move(oldPath, newPath);
             Logger.Info($"Successfully renamed file: {oldPath} -> {newPath}");

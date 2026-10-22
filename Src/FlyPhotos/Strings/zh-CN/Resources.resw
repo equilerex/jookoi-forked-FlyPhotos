@@ -1252,26 +1252,8 @@ High Quality Cubic – 适合照片的最高质量缩放。</value>
   <data name="Exif_Rating" xml:space="preserve">
     <value>评分</value>
   </data>
-  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
-    <value>RAW 照片的评分文件</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
-    <value>Adobe</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
-    <value>darktable / digiKam</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
-    <value>两个文件</value>
-  </data>
-  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
-    <value>新的评分文件命名为 IMG_1234.xmp。Lightroom、Bridge 和 Capture One 使用此名称。</value>
-  </data>
-  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
-    <value>新的评分文件命名为 IMG_1234.CR2.xmp。darktable 和 digiKam 使用此名称。</value>
-  </data>
-  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
-    <value>将评分同时保存为 IMG_1234.xmp 和 IMG_1234.CR2.xmp。适用于上述所有应用。</value>
+  <data name="SettingsCardRatingFiles.Header" xml:space="preserve">
+    <value>评分文件</value>
   </data>
   <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
     <value>删除照片时一并删除评分文件</value>
@@ -1280,9 +1262,15 @@ High Quality Cubic – 适合照片的最高质量缩放。</value>
     <value>删除照片时，其 .xmp 文件也会移到回收站。这些文件可能包含其他应用的编辑。</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
-    <value>将评分保存在 JPEG 和 TIFF 文件内</value>
+    <value>将评分保存在 JPEG、TIFF、DNG 和 PNG 文件内</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
-    <value>关闭：使用照片旁的 .xmp 文件，照片的修改日期保持不变。Lightroom 和 Bridge 不读取 JPEG 或 DNG 的 .xmp 文件。</value>
+    <value>关闭：只写入照片旁的 .xmp 文件。主要供 darktable 使用。Adobe 应用会忽略它。</value>
+  </data>
+  <data name="SettingsCardRatingFiles.Description" xml:space="preserve">
+    <value>RAW 照片会在旁边生成 .xmp 文件。</value>
+  </data>
+  <data name="Rating.Unsupported" xml:space="preserve">
+    <value>无法为此文件类型评分</value>
   </data>
 </root>

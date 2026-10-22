@@ -1251,26 +1251,8 @@ High Quality Cubic – 사진에 가장 적합한 최고 품질의 크기 조절
   <data name="Exif_Rating" xml:space="preserve">
     <value>평점</value>
   </data>
-  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
-    <value>RAW 사진 평점 파일</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
-    <value>Adobe</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
-    <value>darktable / digiKam</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
-    <value>두 파일 모두</value>
-  </data>
-  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
-    <value>새 평점 파일 이름은 IMG_1234.xmp입니다. Lightroom, Bridge, Capture One에서 사용합니다.</value>
-  </data>
-  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
-    <value>새 평점 파일 이름은 IMG_1234.CR2.xmp입니다. darktable과 digiKam에서 사용합니다.</value>
-  </data>
-  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
-    <value>평점을 IMG_1234.xmp와 IMG_1234.CR2.xmp로 모두 저장합니다. 위의 모든 앱에서 사용할 수 있습니다.</value>
+  <data name="SettingsCardRatingFiles.Header" xml:space="preserve">
+    <value>평점 파일</value>
   </data>
   <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
     <value>사진과 함께 평점 파일 삭제</value>
@@ -1279,9 +1261,15 @@ High Quality Cubic – 사진에 가장 적합한 최고 품질의 크기 조절
     <value>사진을 삭제하면 해당 .xmp 파일도 휴지통으로 이동합니다. 다른 앱의 편집 내용이 들어 있을 수 있습니다.</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
-    <value>평점을 JPEG 및 TIFF 파일 안에 저장</value>
+    <value>평점을 JPEG, TIFF, DNG 및 PNG 파일 안에 저장</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
-    <value>끄기: 사진 옆의 .xmp 파일을 사용하고 사진의 수정 날짜를 유지합니다. Lightroom과 Bridge는 JPEG 또는 DNG의 .xmp 파일을 읽지 않습니다.</value>
+    <value>끄기: 사진 옆의 .xmp 파일에만 씁니다. 주로 darktable용입니다. Adobe 앱은 이 파일을 무시합니다.</value>
+  </data>
+  <data name="SettingsCardRatingFiles.Description" xml:space="preserve">
+    <value>RAW 사진 옆에는 .xmp 파일이 만들어집니다.</value>
+  </data>
+  <data name="Rating.Unsupported" xml:space="preserve">
+    <value>이 파일 형식은 평가할 수 없습니다</value>
   </data>
 </root>

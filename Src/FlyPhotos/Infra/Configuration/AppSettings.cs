@@ -56,10 +56,6 @@ public class AppSettings
 
     public bool ConfirmForDelete { get; set; } = true;
 
-    /// <summary>Sidecar name created when rating a RAW: Adobe is IMG.xmp, OpenSource is IMG.CR2.xmp.</summary>
-    [JsonConverter(typeof(JsonStringEnumConverter<SidecarStyle>))]
-    public SidecarStyle RatingSidecarStyle { get; set; } = SidecarStyle.Adobe;
-
     public bool EmbedRatingsInFiles { get; set; } = true;
 
     public bool DeleteRatingSidecarsWithPhoto { get; set; } = true;

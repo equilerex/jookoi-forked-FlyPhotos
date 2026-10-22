@@ -310,11 +310,10 @@ internal partial class PhotoDisplayController
         if (IsContinuousKeyPress() || !photo.TryBeginRatingRead()) return;
 
         var path = photo.FilePath;
-        var isRaw = photo.IsRaw;
         var version = photo.RatingVersion;
         _ = Task.Run(() =>
         {
-            var rating = XmpRatingWriter.ReadRating(path, isRaw, AppConfig.Settings.RatingSidecarStyle) ?? 0;
+            var rating = XmpRatingWriter.ReadRating(path) ?? 0;
             // A write that finished while we were reading is newer than what we found.
             if (photo.RatingVersion == version) photo.Rating = rating;
             else if (photo.Rating == Photo.RatingUnknown) photo.Rating = 0;
@@ -340,11 +339,10 @@ internal partial class PhotoDisplayController
         // Capture the photo before any await: the user may navigate while the write runs.
         if (CurrentPhotoOrNull() is not { } photo) return new RatingResult(false, "App - Inconsistent State");
         var path = photo.FilePath;
-        var isRaw = photo.IsRaw;
 
         if (photo.Rating == Photo.RatingUnknown)
         {
-            var onDisk = await Task.Run(() => XmpRatingWriter.ReadRating(path, isRaw, AppConfig.Settings.RatingSidecarStyle)) ?? 0;
+            var onDisk = await Task.Run(() => XmpRatingWriter.ReadRating(path)) ?? 0;
             // Another press or the background read may have filled it in during the await.
             if (photo.Rating == Photo.RatingUnknown) photo.Rating = onDisk;
         }
@@ -364,7 +362,7 @@ internal partial class PhotoDisplayController
             while (true)
             {
                 var toWrite = photo.Rating;
-                var result = await StorageOps.SetRatingOnDisk(path, toWrite, isRaw);
+                var result = await StorageOps.SetRatingOnDisk(path, toWrite);
                 if (!result.Success)
                 {
                     photo.Rating = saved;

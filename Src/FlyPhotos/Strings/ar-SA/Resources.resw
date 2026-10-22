@@ -1252,26 +1252,8 @@ High Quality Cubic – تحجيم بأعلى جودة للصور.</value>
   <data name="Exif_Rating" xml:space="preserve">
     <value>التقييم</value>
   </data>
-  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
-    <value>ملف التقييم لصور RAW</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
-    <value>Adobe</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
-    <value>darktable / digiKam</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
-    <value>كلا الملفين</value>
-  </data>
-  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
-    <value>تُسمّى ملفات التقييم الجديدة IMG_1234.xmp. تستخدمه Lightroom وBridge وCapture One.</value>
-  </data>
-  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
-    <value>تُسمّى ملفات التقييم الجديدة IMG_1234.CR2.xmp. تستخدمه darktable وdigiKam.</value>
-  </data>
-  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
-    <value>يحفظ التقييم باسمي IMG_1234.xmp وIMG_1234.CR2.xmp. يعمل مع كل التطبيقات أعلاه.</value>
+  <data name="SettingsCardRatingFiles.Header" xml:space="preserve">
+    <value>ملفات التقييم</value>
   </data>
   <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
     <value>حذف ملفات التقييم مع الصورة</value>
@@ -1280,9 +1262,15 @@ High Quality Cubic – تحجيم بأعلى جودة للصور.</value>
     <value>عند حذف صورة تُنقل ملفات .xmp الخاصة بها أيضًا إلى سلة المحذوفات. قد تحتوي على تعديلات من تطبيقات أخرى.</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
-    <value>حفظ التقييمات داخل ملفات JPEG وTIFF</value>
+    <value>حفظ التقييمات داخل ملفات JPEG وTIFF وDNG وPNG</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
-    <value>إيقاف: يستخدم ملف .xmp بجانب الصورة ويحافظ على تاريخ تعديلها. لا يقرأ Lightroom وBridge ملفات .xmp الخاصة بـ JPEG أو DNG.</value>
+    <value>إيقاف: يكتب ملف .xmp المجاور للصورة فقط. مخصص غالبًا لـ darktable. تتجاهله تطبيقات Adobe.</value>
+  </data>
+  <data name="SettingsCardRatingFiles.Description" xml:space="preserve">
+    <value>تحصل صور RAW على ملف .xmp بجانبها.</value>
+  </data>
+  <data name="Rating.Unsupported" xml:space="preserve">
+    <value>لا يمكن تقييم هذا النوع من الملفات</value>
   </data>
 </root>

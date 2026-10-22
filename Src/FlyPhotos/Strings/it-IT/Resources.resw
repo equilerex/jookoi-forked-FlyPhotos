@@ -1252,26 +1252,8 @@ High Quality Cubic – Ridimensionamento della massima qualità per le foto.</va
   <data name="Exif_Rating" xml:space="preserve">
     <value>Valutazione</value>
   </data>
-  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
-    <value>File di valutazione per foto RAW</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
-    <value>Adobe</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
-    <value>darktable / digiKam</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
-    <value>Entrambi i file</value>
-  </data>
-  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
-    <value>I nuovi file di valutazione si chiamano IMG_1234.xmp. Usato da Lightroom, Bridge e Capture One.</value>
-  </data>
-  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
-    <value>I nuovi file di valutazione si chiamano IMG_1234.CR2.xmp. Usato da darktable e digiKam.</value>
-  </data>
-  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
-    <value>Salva le valutazioni come IMG_1234.xmp e IMG_1234.CR2.xmp. Funziona con tutte le app elencate.</value>
+  <data name="SettingsCardRatingFiles.Header" xml:space="preserve">
+    <value>File di valutazione</value>
   </data>
   <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
     <value>Elimina i file di valutazione con la foto</value>
@@ -1280,9 +1262,15 @@ High Quality Cubic – Ridimensionamento della massima qualità per le foto.</va
     <value>Eliminando una foto, anche i suoi file .xmp vanno nel Cestino. Possono contenere modifiche di altre app.</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
-    <value>Salva le valutazioni nei file JPEG e TIFF</value>
+    <value>Salva le valutazioni nei file JPEG, TIFF, DNG e PNG</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
-    <value>Disattivato: usa un file .xmp accanto alla foto e mantiene la data di modifica. Lightroom e Bridge non leggono i file .xmp per JPEG o DNG.</value>
+    <value>Disattivato: scrive solo il file .xmp accanto alla foto. Pensato soprattutto per darktable. Le app Adobe lo ignorano.</value>
+  </data>
+  <data name="SettingsCardRatingFiles.Description" xml:space="preserve">
+    <value>Le foto RAW ricevono un file .xmp accanto.</value>
+  </data>
+  <data name="Rating.Unsupported" xml:space="preserve">
+    <value>Impossibile valutare questo tipo di file</value>
   </data>
 </root>

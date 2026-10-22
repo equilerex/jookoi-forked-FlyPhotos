@@ -1251,26 +1251,8 @@ High Quality Cubic – A legjobb minőségű méretezés fotókhoz.</value>
   <data name="Exif_Rating" xml:space="preserve">
     <value>Értékelés</value>
   </data>
-  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
-    <value>Értékelési fájl RAW fotókhoz</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
-    <value>Adobe</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
-    <value>darktable / digiKam</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
-    <value>Mindkét fájl</value>
-  </data>
-  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
-    <value>Az új értékelésfájlok neve IMG_1234.xmp. Lightroom, Bridge és Capture One használja.</value>
-  </data>
-  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
-    <value>Az új értékelésfájlok neve IMG_1234.CR2.xmp. darktable és digiKam használja.</value>
-  </data>
-  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
-    <value>Az értékelést IMG_1234.xmp és IMG_1234.CR2.xmp néven is menti. Minden felsorolt alkalmazással működik.</value>
+  <data name="SettingsCardRatingFiles.Header" xml:space="preserve">
+    <value>Értékelésfájlok</value>
   </data>
   <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
     <value>Értékelésfájlok törlése a fotóval együtt</value>
@@ -1279,9 +1261,15 @@ High Quality Cubic – A legjobb minőségű méretezés fotókhoz.</value>
     <value>Egy fotó törlésekor az .xmp-fájljai is a Lomtárba kerülnek. Ezek más alkalmazások szerkesztéseit is tartalmazhatják.</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
-    <value>Értékelések mentése a JPEG- és TIFF-fájlokba</value>
+    <value>Értékelések mentése a JPEG-, TIFF-, DNG- és PNG-fájlokba</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
-    <value>Ki: a fotó melletti .xmp-fájlt használja, és megtartja a fotó módosítási dátumát. A Lightroom és a Bridge nem olvassa a JPEG és DNG fájlok .xmp-fájljait.</value>
+    <value>Ki: csak a fotó melletti .xmp-fájlt írja. Főleg darktable-hez. Az Adobe-alkalmazások figyelmen kívül hagyják.</value>
+  </data>
+  <data name="SettingsCardRatingFiles.Description" xml:space="preserve">
+    <value>A RAW fotók mellé egy .xmp-fájl kerül.</value>
+  </data>
+  <data name="Rating.Unsupported" xml:space="preserve">
+    <value>Ez a fájltípus nem értékelhető</value>
   </data>
 </root>

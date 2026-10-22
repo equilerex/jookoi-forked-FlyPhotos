@@ -1252,26 +1252,8 @@ High Quality Cubic – Korkealaatuisin skaalaus valokuville.</value>
   <data name="Exif_Rating" xml:space="preserve">
     <value>Arvostelu</value>
   </data>
-  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
-    <value>RAW-kuvien arvostelutiedosto</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
-    <value>Adobe</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
-    <value>darktable / digiKam</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
-    <value>Molemmat tiedostot</value>
-  </data>
-  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
-    <value>Uusien arvostelutiedostojen nimi on IMG_1234.xmp. Käytössä: Lightroom, Bridge ja Capture One.</value>
-  </data>
-  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
-    <value>Uusien arvostelutiedostojen nimi on IMG_1234.CR2.xmp. Käytössä: darktable ja digiKam.</value>
-  </data>
-  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
-    <value>Tallentaa arvostelut nimillä IMG_1234.xmp ja IMG_1234.CR2.xmp. Toimii kaikissa mainituissa ohjelmissa.</value>
+  <data name="SettingsCardRatingFiles.Header" xml:space="preserve">
+    <value>Arvostelutiedostot</value>
   </data>
   <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
     <value>Poista arvostelutiedostot kuvan mukana</value>
@@ -1280,9 +1262,15 @@ High Quality Cubic – Korkealaatuisin skaalaus valokuville.</value>
     <value>Kuvan poistaminen siirtää myös sen .xmp-tiedostot roskakoriin. Ne voivat sisältää muiden sovellusten muokkauksia.</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
-    <value>Tallenna arvostelut JPEG- ja TIFF-tiedostojen sisään</value>
+    <value>Tallenna arvostelut JPEG-, TIFF-, DNG- ja PNG-tiedostojen sisään</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
-    <value>Pois: käyttää kuvan vieressä olevaa .xmp-tiedostoa ja säilyttää kuvan muokkauspäivän. Lightroom ja Bridge eivät lue .xmp-tiedostoja JPEG- tai DNG-kuville.</value>
+    <value>Pois: kirjoittaa vain kuvan vieressä olevan .xmp-tiedoston. Lähinnä darktablea varten. Adoben sovellukset ohittavat sen.</value>
+  </data>
+  <data name="SettingsCardRatingFiles.Description" xml:space="preserve">
+    <value>RAW-kuvat saavat viereensä .xmp-tiedoston.</value>
+  </data>
+  <data name="Rating.Unsupported" xml:space="preserve">
+    <value>Tätä tiedostotyyppiä ei voi arvostella</value>
   </data>
 </root>

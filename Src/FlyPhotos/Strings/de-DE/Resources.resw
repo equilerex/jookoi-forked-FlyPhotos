@@ -1252,26 +1252,8 @@ High Quality Cubic – Skalierung mit höchster Qualität für Fotos.</value>
   <data name="Exif_Rating" xml:space="preserve">
     <value>Bewertung</value>
   </data>
-  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
-    <value>Bewertungsdatei für RAW-Fotos</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
-    <value>Adobe</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
-    <value>darktable / digiKam</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
-    <value>Beide Dateien</value>
-  </data>
-  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
-    <value>Neue Bewertungsdateien heißen IMG_1234.xmp. Genutzt von Lightroom, Bridge und Capture One.</value>
-  </data>
-  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
-    <value>Neue Bewertungsdateien heißen IMG_1234.CR2.xmp. Genutzt von darktable und digiKam.</value>
-  </data>
-  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
-    <value>Speichert Bewertungen als IMG_1234.xmp und IMG_1234.CR2.xmp. Funktioniert mit allen genannten Programmen.</value>
+  <data name="SettingsCardRatingFiles.Header" xml:space="preserve">
+    <value>Bewertungsdateien</value>
   </data>
   <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
     <value>Bewertungsdateien mit dem Foto löschen</value>
@@ -1280,9 +1262,15 @@ High Quality Cubic – Skalierung mit höchster Qualität für Fotos.</value>
     <value>Beim Löschen eines Fotos werden auch seine .xmp-Dateien in den Papierkorb verschoben. Sie können Bearbeitungen anderer Apps enthalten.</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
-    <value>Bewertungen in JPEG- und TIFF-Dateien speichern</value>
+    <value>Bewertungen in JPEG-, TIFF-, DNG- und PNG-Dateien speichern</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
-    <value>Aus: nutzt eine .xmp-Datei neben dem Foto und behält dessen Änderungsdatum. Lightroom und Bridge lesen keine .xmp-Dateien für JPEG oder DNG.</value>
+    <value>Aus: schreibt nur die .xmp-Datei neben dem Foto. Vor allem für darktable. Adobe-Apps ignorieren sie.</value>
+  </data>
+  <data name="SettingsCardRatingFiles.Description" xml:space="preserve">
+    <value>RAW-Fotos erhalten eine .xmp-Datei daneben.</value>
+  </data>
+  <data name="Rating.Unsupported" xml:space="preserve">
+    <value>Dieser Dateityp kann nicht bewertet werden</value>
   </data>
 </root>

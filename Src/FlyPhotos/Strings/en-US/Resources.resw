@@ -1252,26 +1252,8 @@ High Quality Cubic – Highest-quality scaling for photos.</value>
   <data name="Exif_Rating" xml:space="preserve">
     <value>Rating</value>
   </data>
-  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
-    <value>Rating file for RAW photos</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
-    <value>Adobe</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
-    <value>darktable / digiKam</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
-    <value>Both files</value>
-  </data>
-  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
-    <value>New rating files are named IMG_1234.xmp. Used by Lightroom, Bridge and Capture One.</value>
-  </data>
-  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
-    <value>New rating files are named IMG_1234.CR2.xmp. Used by darktable and digiKam.</value>
-  </data>
-  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
-    <value>Saves ratings as IMG_1234.xmp and IMG_1234.CR2.xmp. Works with every app above.</value>
+  <data name="SettingsCardRatingFiles.Header" xml:space="preserve">
+    <value>Rating files</value>
   </data>
   <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
     <value>Delete rating files with the photo</value>
@@ -1280,9 +1262,15 @@ High Quality Cubic – Highest-quality scaling for photos.</value>
     <value>Deleting a photo also moves its .xmp files to the Recycle Bin. They can hold edits from other apps.</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
-    <value>Save ratings inside JPEG and TIFF files</value>
+    <value>Save ratings inside JPEG, TIFF, DNG and PNG files</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
-    <value>Off: uses a .xmp file next to the photo and keeps its modified date. Lightroom and Bridge don't read .xmp files for JPEG or DNG.</value>
+    <value>Off: writes only the .xmp file next to the photo. Mainly for darktable. Adobe apps ignore it.</value>
+  </data>
+  <data name="SettingsCardRatingFiles.Description" xml:space="preserve">
+    <value>RAW photos get an .xmp file next to them.</value>
+  </data>
+  <data name="Rating.Unsupported" xml:space="preserve">
+    <value>Can't rate this file type</value>
   </data>
 </root>

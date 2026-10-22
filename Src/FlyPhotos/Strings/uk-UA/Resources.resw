@@ -1252,26 +1252,8 @@ High Quality Cubic – Масштабування найвищої якості 
   <data name="Exif_Rating" xml:space="preserve">
     <value>Оцінка</value>
   </data>
-  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
-    <value>Файл оцінки для RAW-фото</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
-    <value>Adobe</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
-    <value>darktable / digiKam</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
-    <value>Обидва файли</value>
-  </data>
-  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
-    <value>Нові файли оцінок мають назву IMG_1234.xmp. Використовується в Lightroom, Bridge і Capture One.</value>
-  </data>
-  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
-    <value>Нові файли оцінок мають назву IMG_1234.CR2.xmp. Використовується в darktable і digiKam.</value>
-  </data>
-  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
-    <value>Зберігає оцінки як IMG_1234.xmp та IMG_1234.CR2.xmp. Працює з усіма перерахованими програмами.</value>
+  <data name="SettingsCardRatingFiles.Header" xml:space="preserve">
+    <value>Файли оцінок</value>
   </data>
   <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
     <value>Видаляти файли оцінок разом із фото</value>
@@ -1280,9 +1262,15 @@ High Quality Cubic – Масштабування найвищої якості 
     <value>Під час видалення фото його файли .xmp теж переміщуються до кошика. Вони можуть містити зміни з інших програм.</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
-    <value>Зберігати оцінки всередині файлів JPEG і TIFF</value>
+    <value>Зберігати оцінки всередині файлів JPEG, TIFF, DNG і PNG</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
-    <value>Вимк.: використовує файл .xmp поруч із фото і зберігає дату зміни. Lightroom і Bridge не читають файли .xmp для JPEG і DNG.</value>
+    <value>Вимк.: записує лише файл .xmp поруч із фото. Переважно для darktable. Програми Adobe його ігнорують.</value>
+  </data>
+  <data name="SettingsCardRatingFiles.Description" xml:space="preserve">
+    <value>Для фото RAW поруч створюється файл .xmp.</value>
+  </data>
+  <data name="Rating.Unsupported" xml:space="preserve">
+    <value>Цей тип файлів не можна оцінити</value>
   </data>
 </root>

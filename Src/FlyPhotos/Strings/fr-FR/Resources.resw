@@ -1252,26 +1252,8 @@ High Quality Cubic – Mise à l'échelle de la plus haute qualité pour les pho
   <data name="Exif_Rating" xml:space="preserve">
     <value>Note</value>
   </data>
-  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
-    <value>Fichier de note des photos RAW</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
-    <value>Adobe</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
-    <value>darktable / digiKam</value>
-  </data>
-  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
-    <value>Les deux fichiers</value>
-  </data>
-  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
-    <value>Les nouveaux fichiers de notes sont nommés IMG_1234.xmp. Utilisé par Lightroom, Bridge et Capture One.</value>
-  </data>
-  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
-    <value>Les nouveaux fichiers de notes sont nommés IMG_1234.CR2.xmp. Utilisé par darktable et digiKam.</value>
-  </data>
-  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
-    <value>Enregistre les notes sous IMG_1234.xmp et IMG_1234.CR2.xmp. Fonctionne avec toutes les applications citées.</value>
+  <data name="SettingsCardRatingFiles.Header" xml:space="preserve">
+    <value>Fichiers de notes</value>
   </data>
   <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
     <value>Supprimer les fichiers de notes avec la photo</value>
@@ -1280,9 +1262,15 @@ High Quality Cubic – Mise à l'échelle de la plus haute qualité pour les pho
     <value>Supprimer une photo envoie aussi ses fichiers .xmp à la Corbeille. Ils peuvent contenir des retouches d'autres applications.</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Header" xml:space="preserve">
-    <value>Enregistrer les notes dans les fichiers JPEG et TIFF</value>
+    <value>Enregistrer les notes dans les fichiers JPEG, TIFF, DNG et PNG</value>
   </data>
   <data name="SettingsCardEmbedRatingsInFiles.Description" xml:space="preserve">
-    <value>Désactivé : utilise un fichier .xmp à côté de la photo et conserve sa date de modification. Lightroom et Bridge ne lisent pas les fichiers .xmp des JPEG ou DNG.</value>
+    <value>Désactivé : écrit seulement le fichier .xmp à côté de la photo. Surtout pour darktable. Les apps Adobe l'ignorent.</value>
+  </data>
+  <data name="SettingsCardRatingFiles.Description" xml:space="preserve">
+    <value>Les photos RAW reçoivent un fichier .xmp à côté.</value>
+  </data>
+  <data name="Rating.Unsupported" xml:space="preserve">
+    <value>Impossible de noter ce type de fichier</value>
   </data>
 </root>
