@@ -55,6 +55,13 @@ public class AppSettings
     public RightClickHoldBehavior RightClickHoldBehavior { get; set; } = RightClickHoldBehavior.ZoomIn;
 
     public bool ConfirmForDelete { get; set; } = true;
+
+    /// <summary>Sidecar name created when rating a RAW: Adobe is IMG.xmp, OpenSource is IMG.CR2.xmp.</summary>
+    [JsonConverter(typeof(JsonStringEnumConverter<SidecarStyle>))]
+    public SidecarStyle RatingSidecarStyle { get; set; } = SidecarStyle.Adobe;
+
+    public bool DeleteRatingSidecarsWithPhoto { get; set; } = true;
+
     public bool ShowFileName { get; set; } = true;
     public bool ShowCacheStatus { get; set; } = true;
     public bool ShowImageDimensions { get; set; } = false;

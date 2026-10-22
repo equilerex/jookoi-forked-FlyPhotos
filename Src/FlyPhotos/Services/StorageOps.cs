@@ -77,9 +77,11 @@
 
 #nullable enable
 using FlyPhotos.Core.Model;
+using FlyPhotos.Infra.Configuration;
 using FlyPhotos.Infra.Interop;
 using FlyPhotos.Infra.Localization;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -261,6 +263,28 @@ internal class StorageOps
     /// </returns>
     public static async Task<DeleteResult> DeleteFileFromDisk(string filePath)
     {
+        List<string> sidecars = AppConfig.Settings.DeleteRatingSidecarsWithPhoto
+            ? XmpRatingWriter.ExistingSidecars(filePath, CodecDiscovery.IsRawFile(Path.GetExtension(filePath)))
+            : [];
+        var result = await DeleteSingleFileFromDisk(filePath);
+        if (!result.DeleteSuccess) return result;
+
+        // The rating sidecar is useless without its photo. Best effort, and recoverable from the Recycle Bin.
+        foreach (var sidecar in sidecars)
+            await DeleteSingleFileFromDisk(sidecar);
+        return result;
+    }
+
+    /// <summary>Writes the star rating (0-5) for <paramref name="filePath"/>; see <see cref="XmpRatingWriter"/>.</summary>
+    public static Task<RatingResult> SetRatingOnDisk(string filePath, int rating, bool isRaw) => Task.Run(() =>
+    {
+        var result = XmpRatingWriter.WriteRating(filePath, rating, isRaw, AppConfig.Settings.RatingSidecarStyle);
+        if (!result.Success) Logger.Error($"Failed to rate '{filePath}': {result.FailMessage}");
+        return result;
+    });
+
+    private static async Task<DeleteResult> DeleteSingleFileFromDisk(string filePath)
+    {
         try
         {
             // Normal files: WinRT path → Recycle Bin
@@ -316,8 +340,24 @@ internal class StorageOps
             if (File.Exists(newPath))
                 return new RenameResult(false, L.Get("RenameFailed/FileAlreadyExists"));
 
+            var sidecars = XmpRatingWriter.ExistingSidecars(oldPath, CodecDiscovery.IsRawFile(Path.GetExtension(oldPath)));
+
             File.Move(oldPath, newPath);
             Logger.Info($"Successfully renamed file: {oldPath} -> {newPath}");
+
+            // Keep the rating sidecar paired with its photo. Best effort: the rename itself already succeeded.
+            foreach (var sidecar in sidecars)
+            {
+                try
+                {
+                    var target = XmpRatingWriter.RenamedSidecar(sidecar, oldPath, newPath);
+                    if (!File.Exists(target)) File.Move(sidecar, target);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Warn($"Could not rename sidecar '{sidecar}': {ex.Message}");
+                }
+            }
             return new RenameResult(true);
         }
         catch (Exception ex)

@@ -1219,4 +1219,64 @@ High Quality Cubic – Najwyższej jakości skalowanie dla zdjęć.</value>
   <data name="SettingsCardOtherAppDeskFlip.Description" xml:space="preserve">
     <value>Widżet zegara z klapkami na pulpit systemu Windows</value>
   </data>
+  <data name="ShortcutGroup_Rating" xml:space="preserve">
+    <value>Ocena</value>
+  </data>
+  <data name="ShortcutName_Rate1" xml:space="preserve">
+    <value>Oceń na 1 gwiazdkę</value>
+  </data>
+  <data name="ShortcutName_Rate2" xml:space="preserve">
+    <value>Oceń na 2 gwiazdki</value>
+  </data>
+  <data name="ShortcutName_Rate3" xml:space="preserve">
+    <value>Oceń na 3 gwiazdki</value>
+  </data>
+  <data name="ShortcutName_Rate4" xml:space="preserve">
+    <value>Oceń na 4 gwiazdki</value>
+  </data>
+  <data name="ShortcutName_Rate5" xml:space="preserve">
+    <value>Oceń na 5 gwiazdek</value>
+  </data>
+  <data name="ShortcutName_Rate0" xml:space="preserve">
+    <value>Wyczyść ocenę</value>
+  </data>
+  <data name="ShortcutDesc_Rate1" xml:space="preserve">
+    <value>Ponowne naciśnięcie tej samej oceny usuwa ją.</value>
+  </data>
+  <data name="Rating.None" xml:space="preserve">
+    <value>Brak oceny</value>
+  </data>
+  <data name="Rating.Failed" xml:space="preserve">
+    <value>Nie można zapisać oceny</value>
+  </data>
+  <data name="Exif_Rating" xml:space="preserve">
+    <value>Ocena</value>
+  </data>
+  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
+    <value>Plik oceny dla zdjęć RAW</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
+    <value>Adobe</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
+    <value>darktable / digiKam</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
+    <value>Oba pliki</value>
+  </data>
+  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
+    <value>Nowe pliki ocen mają nazwę IMG_1234.xmp. Używają go Lightroom, Bridge i Capture One.</value>
+  </data>
+  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
+    <value>Nowe pliki ocen mają nazwę IMG_1234.CR2.xmp. Używają go darktable i digiKam.</value>
+  </data>
+  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
+    <value>Zapisuje oceny jako IMG_1234.xmp i IMG_1234.CR2.xmp. Działa ze wszystkimi wymienionymi aplikacjami.</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
+    <value>Usuwaj pliki ocen razem ze zdjęciem</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
+    <value>Usunięcie zdjęcia przenosi też jego pliki .xmp do Kosza. Mogą zawierać edycje z innych aplikacji.</value>
+  </data>
 </root>

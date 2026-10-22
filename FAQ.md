@@ -214,3 +214,44 @@ It contains all the text displayed in Fly. Translate the values into your langua
 - Submit a Pull Request on GitHub.
 
 **If that sounds too technical**, raise a ticket on [GitHub](https://github.com/riyasy/FlyPhotos/issues) and the developer will send you an online spreadsheet you can fill in directly.
+
+---
+
+## 12. I rated photos in Fly, but another app does not show the stars. Why?
+
+Fly saves ratings as the standard XMP rating (`xmp:Rating`, 0 to 5). Where it saves them depends on the file type:
+
+| File type | Where the rating is stored |
+|---|---|
+| Camera RAW (`.cr2` `.cr3` `.nef` `.arw` `.raf` `.orf` `.rw2` and similar) | A sidecar `.xmp` file next to the photo. The RAW file is never changed. |
+| `.jpg` `.dng` `.tif` | Inside the file. The image data is not re-encoded. A `photo.jpg.xmp` that is already there (from darktable or digiKam) is updated too. |
+| Multi-picture JPEG (Ultra HDR and motion photos from Pixel, Samsung and others) | A sidecar `photo.jpg.xmp`, because writing inside would break the extra pictures. Lightroom and Bridge do not read this sidecar. |
+| Everything else (`.heic`, `.png`, `.webp` and so on) | A sidecar named after the full file name, e.g. `photo.heic.xmp` |
+
+### Which sidecar name should I choose for RAW files?
+
+Both options write the same rating. Only the file name differs, because apps disagree on what a RAW sidecar is called. Set it in **Settings → Rating file for RAW photos**:
+
+| Setting | File for `IMG_1234.CR2` | Used by |
+|---|---|---|
+| **Adobe** (default) | `IMG_1234.xmp` | Lightroom, Bridge, Capture One |
+| **darktable / digiKam** | `IMG_1234.CR2.xmp` | darktable, digiKam |
+| **Both files** | both of the above | all of them |
+
+- The Adobe name has no RAW extension in it, so a RAW and a JPEG with the same name would share it. That is how Adobe apps work.
+- darktable can also import Adobe-style sidecars. digiKam has a setting for Adobe-compatible names.
+- **Both files** leaves two `.xmp` files next to each RAW.
+- The setting only picks the name of a new file. A sidecar that already exists under either name is always updated.
+
+### What happens to the `.xmp` file when I delete or rename a photo?
+
+Renaming a photo renames its sidecar with it. Deleting a photo also moves its sidecar to the Recycle Bin. A sidecar can also hold edits made in other apps, so you can turn this off in **Settings → Rating file for RAW photos → Delete rating files with the photo**.
+
+### The rating does not update in my photo app
+
+Lightroom, Capture One, darktable and digiKam read ratings from the file when a photo is imported. After that they use their own catalog and do not watch the folder. A photo that was already imported keeps its old rating in that app until you tell the app to read the file again. This is normal for these apps.
+
+- **Lightroom Classic:** for photos that are already imported, select them and use **Metadata → Read Metadata from File**. Do not use *Save Metadata to File*, which writes the catalog value over Fly's rating.
+- **Capture One:** turn on its sidecar XMP sync in the metadata preferences, otherwise its catalog value wins.
+- **darktable / digiKam:** reload the metadata from the sidecar, or enable the option that checks for changed sidecar files.
+- **Windows Explorer:** the star column may not show ratings stored in a RAW sidecar.

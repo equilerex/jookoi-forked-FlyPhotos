@@ -289,6 +289,27 @@
                             <ToggleSwitch x:Name="ButtonConfirmBeforeDelete" />
                         </controls:SettingsCard>
 
+                        <controls:SettingsExpander
+                            x:Name="SettingsCardRatingSidecarStyle"
+                            x:Uid="SettingsCardRatingSidecarStyle"
+                            Margin="0,5,0,0"
+                            Description="{x:Bind RatingSidecarDescription(ComboRatingSidecarStyle.SelectedIndex), Mode=OneWay}"
+                            HeaderIcon="{ui:FontIcon Glyph=&#xE734;, FontFamily={StaticResource FluentIcons}}">
+                            <ComboBox
+                                x:Name="ComboRatingSidecarStyle"
+                                MinWidth="150"
+                                HorizontalAlignment="Right">
+                                <ComboBoxItem x:Uid="ComboRatingSidecarStyleItemAdobe" />
+                                <ComboBoxItem x:Uid="ComboRatingSidecarStyleItemOpenSource" />
+                                <ComboBoxItem x:Uid="ComboRatingSidecarStyleItemBoth" />
+                            </ComboBox>
+                            <controls:SettingsExpander.Items>
+                                <controls:SettingsCard x:Name="SettingsCardDeleteRatingSidecars" x:Uid="SettingsCardDeleteRatingSidecars">
+                                    <ToggleSwitch x:Name="ButtonDeleteRatingSidecars" />
+                                </controls:SettingsCard>
+                            </controls:SettingsExpander.Items>
+                        </controls:SettingsExpander>
+
                         <!--  *****************  -->
 
                         <TextBlock

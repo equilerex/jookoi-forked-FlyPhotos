@@ -1219,4 +1219,64 @@ High Quality Cubic – Escalado de la más alta calidad para fotos.</value>
   <data name="SettingsCardOtherAppDeskFlip.Description" xml:space="preserve">
     <value>Widget de reloj abatible para el escritorio de Windows</value>
   </data>
+  <data name="ShortcutGroup_Rating" xml:space="preserve">
+    <value>Valoración</value>
+  </data>
+  <data name="ShortcutName_Rate1" xml:space="preserve">
+    <value>Valorar con 1 estrella</value>
+  </data>
+  <data name="ShortcutName_Rate2" xml:space="preserve">
+    <value>Valorar con 2 estrellas</value>
+  </data>
+  <data name="ShortcutName_Rate3" xml:space="preserve">
+    <value>Valorar con 3 estrellas</value>
+  </data>
+  <data name="ShortcutName_Rate4" xml:space="preserve">
+    <value>Valorar con 4 estrellas</value>
+  </data>
+  <data name="ShortcutName_Rate5" xml:space="preserve">
+    <value>Valorar con 5 estrellas</value>
+  </data>
+  <data name="ShortcutName_Rate0" xml:space="preserve">
+    <value>Quitar valoración</value>
+  </data>
+  <data name="ShortcutDesc_Rate1" xml:space="preserve">
+    <value>Pulsar de nuevo la misma valoración la quita.</value>
+  </data>
+  <data name="Rating.None" xml:space="preserve">
+    <value>Sin valoración</value>
+  </data>
+  <data name="Rating.Failed" xml:space="preserve">
+    <value>No se pudo guardar la valoración</value>
+  </data>
+  <data name="Exif_Rating" xml:space="preserve">
+    <value>Valoración</value>
+  </data>
+  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
+    <value>Archivo de valoración para fotos RAW</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
+    <value>Adobe</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
+    <value>darktable / digiKam</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
+    <value>Ambos archivos</value>
+  </data>
+  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
+    <value>Los nuevos archivos de valoración se llaman IMG_1234.xmp. Lo usan Lightroom, Bridge y Capture One.</value>
+  </data>
+  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
+    <value>Los nuevos archivos de valoración se llaman IMG_1234.CR2.xmp. Lo usan darktable y digiKam.</value>
+  </data>
+  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
+    <value>Guarda las valoraciones como IMG_1234.xmp e IMG_1234.CR2.xmp. Funciona con todas las apps indicadas.</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
+    <value>Eliminar los archivos de valoración con la foto</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
+    <value>Al eliminar una foto, sus archivos .xmp también se envían a la Papelera de reciclaje. Pueden contener ediciones de otras aplicaciones.</value>
+  </data>
 </root>

@@ -1219,4 +1219,64 @@ High Quality Cubic – Skalierung mit höchster Qualität für Fotos.</value>
   <data name="SettingsCardOtherAppDeskFlip.Description" xml:space="preserve">
     <value>Klappuhr-Widget für den Windows-Desktop</value>
   </data>
+  <data name="ShortcutGroup_Rating" xml:space="preserve">
+    <value>Bewertung</value>
+  </data>
+  <data name="ShortcutName_Rate1" xml:space="preserve">
+    <value>1 Stern vergeben</value>
+  </data>
+  <data name="ShortcutName_Rate2" xml:space="preserve">
+    <value>2 Sterne vergeben</value>
+  </data>
+  <data name="ShortcutName_Rate3" xml:space="preserve">
+    <value>3 Sterne vergeben</value>
+  </data>
+  <data name="ShortcutName_Rate4" xml:space="preserve">
+    <value>4 Sterne vergeben</value>
+  </data>
+  <data name="ShortcutName_Rate5" xml:space="preserve">
+    <value>5 Sterne vergeben</value>
+  </data>
+  <data name="ShortcutName_Rate0" xml:space="preserve">
+    <value>Bewertung entfernen</value>
+  </data>
+  <data name="ShortcutDesc_Rate1" xml:space="preserve">
+    <value>Erneutes Drücken derselben Bewertung entfernt sie.</value>
+  </data>
+  <data name="Rating.None" xml:space="preserve">
+    <value>Keine Bewertung</value>
+  </data>
+  <data name="Rating.Failed" xml:space="preserve">
+    <value>Bewertung konnte nicht gespeichert werden</value>
+  </data>
+  <data name="Exif_Rating" xml:space="preserve">
+    <value>Bewertung</value>
+  </data>
+  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
+    <value>Bewertungsdatei für RAW-Fotos</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
+    <value>Adobe</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
+    <value>darktable / digiKam</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
+    <value>Beide Dateien</value>
+  </data>
+  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
+    <value>Neue Bewertungsdateien heißen IMG_1234.xmp. Genutzt von Lightroom, Bridge und Capture One.</value>
+  </data>
+  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
+    <value>Neue Bewertungsdateien heißen IMG_1234.CR2.xmp. Genutzt von darktable und digiKam.</value>
+  </data>
+  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
+    <value>Speichert Bewertungen als IMG_1234.xmp und IMG_1234.CR2.xmp. Funktioniert mit allen genannten Programmen.</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
+    <value>Bewertungsdateien mit dem Foto löschen</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
+    <value>Beim Löschen eines Fotos werden auch seine .xmp-Dateien in den Papierkorb verschoben. Sie können Bearbeitungen anderer Apps enthalten.</value>
+  </data>
 </root>

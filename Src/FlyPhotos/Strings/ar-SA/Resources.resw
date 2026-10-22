@@ -1219,4 +1219,64 @@ High Quality Cubic – تحجيم بأعلى جودة للصور.</value>
   <data name="SettingsCardOtherAppDeskFlip.Description" xml:space="preserve">
     <value>أداة ساعة قلّابة لسطح مكتب Windows</value>
   </data>
+  <data name="ShortcutGroup_Rating" xml:space="preserve">
+    <value>التقييم</value>
+  </data>
+  <data name="ShortcutName_Rate1" xml:space="preserve">
+    <value>تقييم بنجمة واحدة</value>
+  </data>
+  <data name="ShortcutName_Rate2" xml:space="preserve">
+    <value>تقييم بنجمتين</value>
+  </data>
+  <data name="ShortcutName_Rate3" xml:space="preserve">
+    <value>تقييم بثلاث نجوم</value>
+  </data>
+  <data name="ShortcutName_Rate4" xml:space="preserve">
+    <value>تقييم بأربع نجوم</value>
+  </data>
+  <data name="ShortcutName_Rate5" xml:space="preserve">
+    <value>تقييم بخمس نجوم</value>
+  </data>
+  <data name="ShortcutName_Rate0" xml:space="preserve">
+    <value>مسح التقييم</value>
+  </data>
+  <data name="ShortcutDesc_Rate1" xml:space="preserve">
+    <value>الضغط على التقييم نفسه مرة أخرى يمسحه.</value>
+  </data>
+  <data name="Rating.None" xml:space="preserve">
+    <value>بلا تقييم</value>
+  </data>
+  <data name="Rating.Failed" xml:space="preserve">
+    <value>تعذر حفظ التقييم</value>
+  </data>
+  <data name="Exif_Rating" xml:space="preserve">
+    <value>التقييم</value>
+  </data>
+  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
+    <value>ملف التقييم لصور RAW</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
+    <value>Adobe</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
+    <value>darktable / digiKam</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
+    <value>كلا الملفين</value>
+  </data>
+  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
+    <value>تُسمّى ملفات التقييم الجديدة IMG_1234.xmp. تستخدمه Lightroom وBridge وCapture One.</value>
+  </data>
+  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
+    <value>تُسمّى ملفات التقييم الجديدة IMG_1234.CR2.xmp. تستخدمه darktable وdigiKam.</value>
+  </data>
+  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
+    <value>يحفظ التقييم باسمي IMG_1234.xmp وIMG_1234.CR2.xmp. يعمل مع كل التطبيقات أعلاه.</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
+    <value>حذف ملفات التقييم مع الصورة</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
+    <value>عند حذف صورة تُنقل ملفات .xmp الخاصة بها أيضًا إلى سلة المحذوفات. قد تحتوي على تعديلات من تطبيقات أخرى.</value>
+  </data>
 </root>

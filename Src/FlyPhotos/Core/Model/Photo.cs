@@ -24,6 +24,27 @@ internal partial class Photo : IDisposable
 
     public bool IsRaw { get; }
 
+    public const int RatingUnknown = -1;
+
+    private int _rating = RatingUnknown;
+    private int _ratingVersion;
+    private int _ratingReadStarted;
+
+    /// <summary>Star rating 0-5, or <see cref="RatingUnknown"/> until it has been read from disk.</summary>
+    public int Rating
+    {
+        get => Volatile.Read(ref _rating);
+        set => Volatile.Write(ref _rating, value);
+    }
+
+    /// <summary>Bumped by every rating write, so a read that began earlier can tell its result is stale.</summary>
+    public int RatingVersion => Volatile.Read(ref _ratingVersion);
+
+    public int BumpRatingVersion() => Interlocked.Increment(ref _ratingVersion);
+
+    /// <summary>True for the one caller that should read the rating from disk; the read happens once per photo.</summary>
+    public bool TryBeginRatingRead() => Interlocked.Exchange(ref _ratingReadStarted, 1) == 0;
+
     /// <summary>An earlier HQ load found the image larger than the GPU's maximum bitmap size.</summary>
     private bool _probedOversized;
 

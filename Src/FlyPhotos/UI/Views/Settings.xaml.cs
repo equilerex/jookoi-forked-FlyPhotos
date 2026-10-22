@@ -110,6 +110,8 @@ internal sealed partial class Settings
         ComboWindowLaunchMode.SelectedIndex = GetIndexForWindowLaunchMode(AppConfig.Settings.WindowLaunchMode);
         ButtonAllowMultiInstance.IsOn = AppConfig.Settings.AllowMultiInstance;
         ButtonConfirmBeforeDelete.IsOn = AppConfig.Settings.ConfirmForDelete;
+        ComboRatingSidecarStyle.SelectedIndex = GetIndexForSidecarStyle(AppConfig.Settings.RatingSidecarStyle);
+        ButtonDeleteRatingSidecars.IsOn = AppConfig.Settings.DeleteRatingSidecarsWithPhoto;
         ButtonShowFileName.IsOn = AppConfig.Settings.ShowFileName;
         ButtonShowCacheStatusExpander.IsOn = AppConfig.Settings.ShowCacheStatus;
         ButtonShowImageDimensions.IsOn = AppConfig.Settings.ShowImageDimensions;
@@ -142,6 +144,8 @@ internal sealed partial class Settings
         SliderTransparentBackgroundIntensity.ValueChanged += SliderTransparentBackgroundIntensity_ValueChanged;
         SliderThumbnailSize.ValueChanged += SliderThumbnailSize_ValueChanged;
         ComboWindowLaunchMode.SelectionChanged += ComboWindowLaunchMode_OnSelectionChanged;
+        ComboRatingSidecarStyle.SelectionChanged += ComboRatingSidecarStyle_OnSelectionChanged;
+        ButtonDeleteRatingSidecars.Toggled += ButtonDeleteRatingSidecars_OnToggled;
         ButtonAllowMultiInstance.Toggled += ButtonAllowMultiInstance_OnToggled;
         ButtonConfirmBeforeDelete.Toggled += ButtonConfirmBeforeDelete_OnToggled;
         ButtonShowFileName.Toggled += ButtonShowFileName_OnToggled;
@@ -300,6 +304,18 @@ internal sealed partial class Settings
         await AppConfig.SaveAsync();
     }
 
+
+    private async void ComboRatingSidecarStyle_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        AppConfig.Settings.RatingSidecarStyle = GetSidecarStyleForIndex(ComboRatingSidecarStyle.SelectedIndex);
+        await AppConfig.SaveAsync();
+    }
+
+    private async void ButtonDeleteRatingSidecars_OnToggled(object sender, RoutedEventArgs e)
+    {
+        AppConfig.Settings.DeleteRatingSidecarsWithPhoto = ButtonDeleteRatingSidecars.IsOn;
+        await AppConfig.SaveAsync();
+    }
 
     private async void ComboWindowLaunchMode_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -495,6 +511,14 @@ internal sealed partial class Settings
     // Show the "Previous state" explanation only for the LastWindowState option (index 2).
     private string LaunchModeDescription(int index) => index == 2 ? L.Get("SettingsCardWindowLaunchMode/Description") : string.Empty;
 
+    // Each option explains which apps read that file name, since the choice only matters for those apps.
+    private string RatingSidecarDescription(int index) => index switch
+    {
+        1 => L.Get("RatingSidecarDescriptionOpenSource"),
+        2 => L.Get("RatingSidecarDescriptionBoth"),
+        _ => L.Get("RatingSidecarDescriptionAdobe")
+    };
+
     // Mapping helpers to use index-based combo box handling while keeping AppSettings stored as enum names
     private static int GetIndexForTheme(ElementTheme theme)
     {
@@ -556,6 +580,27 @@ internal sealed partial class Settings
             PanZoomBehaviourOnNavigation.RememberPerPhoto => 1,
             PanZoomBehaviourOnNavigation.RetainFromLastPhoto => 2,
             _ => 0
+        };
+    }
+
+    private static int GetIndexForSidecarStyle(SidecarStyle style)
+    {
+        return style switch
+        {
+            SidecarStyle.Adobe => 0,
+            SidecarStyle.OpenSource => 1,
+            SidecarStyle.Both => 2,
+            _ => 0
+        };
+    }
+
+    private static SidecarStyle GetSidecarStyleForIndex(int index)
+    {
+        return index switch
+        {
+            1 => SidecarStyle.OpenSource,
+            2 => SidecarStyle.Both,
+            _ => SidecarStyle.Adobe
         };
     }
 

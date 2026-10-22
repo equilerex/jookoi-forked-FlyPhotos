@@ -1219,4 +1219,64 @@ High Quality Cubic – Schaling van de hoogste kwaliteit voor foto's.</value>
   <data name="SettingsCardOtherAppDeskFlip.Description" xml:space="preserve">
     <value>Klapklokwidget voor het Windows-bureaublad</value>
   </data>
+  <data name="ShortcutGroup_Rating" xml:space="preserve">
+    <value>Waardering</value>
+  </data>
+  <data name="ShortcutName_Rate1" xml:space="preserve">
+    <value>1 ster geven</value>
+  </data>
+  <data name="ShortcutName_Rate2" xml:space="preserve">
+    <value>2 sterren geven</value>
+  </data>
+  <data name="ShortcutName_Rate3" xml:space="preserve">
+    <value>3 sterren geven</value>
+  </data>
+  <data name="ShortcutName_Rate4" xml:space="preserve">
+    <value>4 sterren geven</value>
+  </data>
+  <data name="ShortcutName_Rate5" xml:space="preserve">
+    <value>5 sterren geven</value>
+  </data>
+  <data name="ShortcutName_Rate0" xml:space="preserve">
+    <value>Waardering wissen</value>
+  </data>
+  <data name="ShortcutDesc_Rate1" xml:space="preserve">
+    <value>Dezelfde waardering opnieuw indrukken wist haar.</value>
+  </data>
+  <data name="Rating.None" xml:space="preserve">
+    <value>Geen waardering</value>
+  </data>
+  <data name="Rating.Failed" xml:space="preserve">
+    <value>Waardering kon niet worden opgeslagen</value>
+  </data>
+  <data name="Exif_Rating" xml:space="preserve">
+    <value>Waardering</value>
+  </data>
+  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
+    <value>Waarderingsbestand voor RAW-foto's</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
+    <value>Adobe</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
+    <value>darktable / digiKam</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
+    <value>Beide bestanden</value>
+  </data>
+  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
+    <value>Nieuwe waarderingsbestanden heten IMG_1234.xmp. Gebruikt door Lightroom, Bridge en Capture One.</value>
+  </data>
+  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
+    <value>Nieuwe waarderingsbestanden heten IMG_1234.CR2.xmp. Gebruikt door darktable en digiKam.</value>
+  </data>
+  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
+    <value>Slaat waarderingen op als IMG_1234.xmp en IMG_1234.CR2.xmp. Werkt met alle genoemde apps.</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
+    <value>Waarderingsbestanden met de foto verwijderen</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
+    <value>Bij het verwijderen van een foto gaan ook de .xmp-bestanden naar de Prullenbak. Die kunnen bewerkingen uit andere apps bevatten.</value>
+  </data>
 </root>

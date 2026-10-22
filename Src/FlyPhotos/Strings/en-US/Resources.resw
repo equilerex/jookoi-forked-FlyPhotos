@@ -1219,4 +1219,64 @@ High Quality Cubic – Highest-quality scaling for photos.</value>
   <data name="SettingsCardOtherAppDeskFlip.Description" xml:space="preserve">
     <value>Flip clock widget for the Windows desktop</value>
   </data>
+  <data name="ShortcutGroup_Rating" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="ShortcutName_Rate1" xml:space="preserve">
+    <value>Rate 1 star</value>
+  </data>
+  <data name="ShortcutName_Rate2" xml:space="preserve">
+    <value>Rate 2 stars</value>
+  </data>
+  <data name="ShortcutName_Rate3" xml:space="preserve">
+    <value>Rate 3 stars</value>
+  </data>
+  <data name="ShortcutName_Rate4" xml:space="preserve">
+    <value>Rate 4 stars</value>
+  </data>
+  <data name="ShortcutName_Rate5" xml:space="preserve">
+    <value>Rate 5 stars</value>
+  </data>
+  <data name="ShortcutName_Rate0" xml:space="preserve">
+    <value>Clear rating</value>
+  </data>
+  <data name="ShortcutDesc_Rate1" xml:space="preserve">
+    <value>Pressing the same rating again clears it.</value>
+  </data>
+  <data name="Rating.None" xml:space="preserve">
+    <value>No rating</value>
+  </data>
+  <data name="Rating.Failed" xml:space="preserve">
+    <value>Could not save rating</value>
+  </data>
+  <data name="Exif_Rating" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
+    <value>Rating file for RAW photos</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
+    <value>Adobe</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
+    <value>darktable / digiKam</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
+    <value>Both files</value>
+  </data>
+  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
+    <value>New rating files are named IMG_1234.xmp. Used by Lightroom, Bridge and Capture One.</value>
+  </data>
+  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
+    <value>New rating files are named IMG_1234.CR2.xmp. Used by darktable and digiKam.</value>
+  </data>
+  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
+    <value>Saves ratings as IMG_1234.xmp and IMG_1234.CR2.xmp. Works with every app above.</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
+    <value>Delete rating files with the photo</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
+    <value>Deleting a photo also moves its .xmp files to the Recycle Bin. They can hold edits from other apps.</value>
+  </data>
 </root>

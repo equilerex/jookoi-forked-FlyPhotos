@@ -1219,4 +1219,64 @@ High Quality Cubic – 適合相片的最高品質縮放。</value>
   <data name="SettingsCardOtherAppDeskFlip.Description" xml:space="preserve">
     <value>適用於 Windows 桌面的翻頁時鐘小工具</value>
   </data>
+  <data name="ShortcutGroup_Rating" xml:space="preserve">
+    <value>評分</value>
+  </data>
+  <data name="ShortcutName_Rate1" xml:space="preserve">
+    <value>評 1 星</value>
+  </data>
+  <data name="ShortcutName_Rate2" xml:space="preserve">
+    <value>評 2 星</value>
+  </data>
+  <data name="ShortcutName_Rate3" xml:space="preserve">
+    <value>評 3 星</value>
+  </data>
+  <data name="ShortcutName_Rate4" xml:space="preserve">
+    <value>評 4 星</value>
+  </data>
+  <data name="ShortcutName_Rate5" xml:space="preserve">
+    <value>評 5 星</value>
+  </data>
+  <data name="ShortcutName_Rate0" xml:space="preserve">
+    <value>清除評分</value>
+  </data>
+  <data name="ShortcutDesc_Rate1" xml:space="preserve">
+    <value>再次按下相同的評分會清除它。</value>
+  </data>
+  <data name="Rating.None" xml:space="preserve">
+    <value>無評分</value>
+  </data>
+  <data name="Rating.Failed" xml:space="preserve">
+    <value>無法儲存評分</value>
+  </data>
+  <data name="Exif_Rating" xml:space="preserve">
+    <value>評分</value>
+  </data>
+  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
+    <value>RAW 相片的評分檔案</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
+    <value>Adobe</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
+    <value>darktable / digiKam</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
+    <value>兩個檔案</value>
+  </data>
+  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
+    <value>新的評分檔案命名為 IMG_1234.xmp。Lightroom、Bridge 和 Capture One 使用此名稱。</value>
+  </data>
+  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
+    <value>新的評分檔案命名為 IMG_1234.CR2.xmp。darktable 和 digiKam 使用此名稱。</value>
+  </data>
+  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
+    <value>將評分同時儲存為 IMG_1234.xmp 和 IMG_1234.CR2.xmp。適用於上述所有應用程式。</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
+    <value>刪除相片時一併刪除評分檔案</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
+    <value>刪除相片時，其 .xmp 檔案也會移到資源回收筒。這些檔案可能包含其他應用程式的編輯。</value>
+  </data>
 </root>

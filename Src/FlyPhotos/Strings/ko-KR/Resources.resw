@@ -1218,4 +1218,64 @@ High Quality Cubic – 사진에 가장 적합한 최고 품질의 크기 조절
   <data name="SettingsCardOtherAppDeskFlip.Description" xml:space="preserve">
     <value>Windows 바탕 화면용 플립 시계 위젯</value>
   </data>
+  <data name="ShortcutGroup_Rating" xml:space="preserve">
+    <value>평점</value>
+  </data>
+  <data name="ShortcutName_Rate1" xml:space="preserve">
+    <value>별 1개로 평가</value>
+  </data>
+  <data name="ShortcutName_Rate2" xml:space="preserve">
+    <value>별 2개로 평가</value>
+  </data>
+  <data name="ShortcutName_Rate3" xml:space="preserve">
+    <value>별 3개로 평가</value>
+  </data>
+  <data name="ShortcutName_Rate4" xml:space="preserve">
+    <value>별 4개로 평가</value>
+  </data>
+  <data name="ShortcutName_Rate5" xml:space="preserve">
+    <value>별 5개로 평가</value>
+  </data>
+  <data name="ShortcutName_Rate0" xml:space="preserve">
+    <value>평점 지우기</value>
+  </data>
+  <data name="ShortcutDesc_Rate1" xml:space="preserve">
+    <value>같은 평점을 다시 누르면 지워집니다.</value>
+  </data>
+  <data name="Rating.None" xml:space="preserve">
+    <value>평점 없음</value>
+  </data>
+  <data name="Rating.Failed" xml:space="preserve">
+    <value>평점을 저장할 수 없습니다</value>
+  </data>
+  <data name="Exif_Rating" xml:space="preserve">
+    <value>평점</value>
+  </data>
+  <data name="SettingsCardRatingSidecarStyle.Header" xml:space="preserve">
+    <value>RAW 사진 평점 파일</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemAdobe.Content" xml:space="preserve">
+    <value>Adobe</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemOpenSource.Content" xml:space="preserve">
+    <value>darktable / digiKam</value>
+  </data>
+  <data name="ComboRatingSidecarStyleItemBoth.Content" xml:space="preserve">
+    <value>두 파일 모두</value>
+  </data>
+  <data name="RatingSidecarDescriptionAdobe" xml:space="preserve">
+    <value>새 평점 파일 이름은 IMG_1234.xmp입니다. Lightroom, Bridge, Capture One에서 사용합니다.</value>
+  </data>
+  <data name="RatingSidecarDescriptionOpenSource" xml:space="preserve">
+    <value>새 평점 파일 이름은 IMG_1234.CR2.xmp입니다. darktable과 digiKam에서 사용합니다.</value>
+  </data>
+  <data name="RatingSidecarDescriptionBoth" xml:space="preserve">
+    <value>평점을 IMG_1234.xmp와 IMG_1234.CR2.xmp로 모두 저장합니다. 위의 모든 앱에서 사용할 수 있습니다.</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Header" xml:space="preserve">
+    <value>사진과 함께 평점 파일 삭제</value>
+  </data>
+  <data name="SettingsCardDeleteRatingSidecars.Description" xml:space="preserve">
+    <value>사진을 삭제하면 해당 .xmp 파일도 휴지통으로 이동합니다. 다른 앱의 편집 내용이 들어 있을 수 있습니다.</value>
+  </data>
 </root>

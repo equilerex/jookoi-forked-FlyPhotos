@@ -113,6 +113,15 @@ public enum PanZoomBehaviourOnNavigation
 [JsonConverter(typeof(JsonStringEnumConverter<RawDecoder>))]
 public enum RawDecoder { Rawler, WIC, ImageMagick }
 
+public enum SidecarStyle
+{
+    /// <summary>IMG_1234.xmp (Lightroom, Bridge, Capture One).</summary>
+    Adobe,
+    /// <summary>IMG_1234.CR2.xmp (darktable, digiKam).</summary>
+    OpenSource,
+    Both
+}
+
 public enum WindowLaunchMode
 {
     Maximized,
